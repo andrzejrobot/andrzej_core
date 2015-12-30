@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<robot name="andrzej" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:property name="base_width" value=".4" />
+  <xacro:property name="base_length" value=".6" />
+  <xacro:property name="base_height" value=".1" />
+  <xacro:property name="wheel_diam" value=".1" />
+  <xacro:property name="wheel_width" value=".04" />
+  <xacro:property name="pi" value="3.1415926535897931" />
+
+  <xacro:include filename="$(find andrzej_description)/urdf/materials.xacro" />
+
+  <xacro:macro name="default_inertial" params="mass">
+    <inertial>
+      <mass value="${mass}" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </xacro:macro>
+
+  <xacro:include filename="$(find andrzej_description)/urdf/andrzej_base.xacro" />
+  <xacro:include filename="$(find andrzej_description)/urdf/andrzej_arms.xacro" />
+  
+</robot>

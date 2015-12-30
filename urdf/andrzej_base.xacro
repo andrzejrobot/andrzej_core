@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<robot name="andrzej" xmlns:xacro="http://ros.org/wiki/xacro">
+  
+  <link name="base_link">  
+    <visual>
+      <geometry>
+        <box size="${base_length} ${base_width} ${base_height}"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${base_length} ${base_width} ${base_height}"/>
+      </geometry>
+    </collision>
+    <xacro:default_inertial mass="10"/>
+  </link>
+    
+  <xacro:macro name="wheel" params="prefix reflect_x reflect_y">
+
+    <link name="${prefix}_wheel">
+      <visual>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+        <geometry>
+          <cylinder radius="${wheel_diam/2}" length="${wheel_width}"/>
+        </geometry>
+        <material name="green"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+        <geometry>
+          <cylinder radius="${wheel_diam/2}" length="0.1"/>
+        </geometry>
+      </collision>
+      <xacro:default_inertial mass="1"/>
+    </link>
+    
+    <joint name="${prefix}_wheel_joint" type="continuous">
+      <axis xyz="0 1 0" rpy="0 0 0" />
+      <parent link="base_link"/>
+      <child link="${prefix}_wheel"/>
+      <origin xyz="${base_length*reflect_x/3} ${(base_width/2+wheel_width/2)*reflect_y} ${-base_height/2+wheel_diam/4}" rpy="0 0 0"/>
+    </joint>
+
+  </xacro:macro>
+  
+  <xacro:wheel prefix="front_left" reflect_x="1" reflect_y="1" />
+  <xacro:wheel prefix="front_right" reflect_x="1" reflect_y="-1" />
+  <xacro:wheel prefix="rear_left" reflect_x="-1" reflect_y="1" />
+  <xacro:wheel prefix="rear_right" reflect_x="-1" reflect_y="-1" />
+
+</robot>
