@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<robot name="andrzej" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:property name="arm_base_length" value=".2" />
+  <xacro:property name="arm_base_width" value=".2" />
+  <xacro:property name="arm_base_height" value=".05" />
+
+  <xacro:macro name="arm_1_link_1_visual">
+    <geometry>
+          <box size=".1 .05 .05"/>
+    </geometry>
+    <origin xyz="0 0 0.025"/>   
+    <material name="green"/>     
+  </xacro:macro>
+
+  <xacro:macro name="arm_1_joint_1_spec">
+    <axis xyz="0 0 1"/>
+    <limit effort="1000.0" lower="-.67" upper="2.67" velocity="0.5"/>
+    <origin xyz="0 0 0"/>
+  </xacro:macro>
+  
+  <xacro:macro name="arm_1_link_2_visual">
+    <geometry>
+      <box size=".1 .05 .2"/>
+    </geometry>
+    <origin xyz="0 0 .1"/>
+    <material name="gray"/>      
+  </xacro:macro>
+
+  <xacro:macro name="arm_1_joint_2_spec">
+    <axis xyz="1 0 0"/>
+    <limit effort="1000.0" lower="-1.47" upper="1.87" velocity="0.5"/>
+    <origin xyz="0 0 0.05"/>
+  </xacro:macro>
+  
+  <xacro:macro name="arm_1_link_3_visual">
+    <geometry>
+      <box size=".1 .05 .2"/>
+    </geometry>
+    <origin xyz="0 0 .1"/>
+    <material name="orange"/>     
+  </xacro:macro>
+
+  <xacro:macro name="arm_1_joint_3_spec">
+    <axis xyz="1 0 0"/>
+    <limit effort="1000.0" lower="-.87" upper="2.47" velocity="0.5"/>
+    <origin xyz="0 0 .3"/>
+  </xacro:macro>
+  
+  <xacro:macro name="arm_1_link_4_visual">
+    <geometry>
+      <box size=".1 .05 .05"/>
+    </geometry>
+    <origin xyz="0 0 .025"/>
+    <material name="gray"/>     
+  </xacro:macro>
+
+  <xacro:macro name="arm_1_joint_4_spec">
+    <axis xyz="0 0 1"/>
+    <limit effort="1000.0" lower="-1.67" upper="1.67" velocity="0.5"/>
+    <origin xyz="0 0 .2"/>
+  </xacro:macro>
+  
+  <xacro:macro name="arm_1_link_5_visual">
+    <geometry>
+      <box size=".1 .05 .05"/>
+    </geometry>
+    <origin xyz="0 0 .025"/>
+    <material name="gray"/>     
+  </xacro:macro>
+
+  <xacro:macro name="arm_1_joint_5_spec">
+    <axis xyz="1 0 0"/>
+    <limit effort="1000.0" lower="-1.67" upper="1.67" velocity="0.5"/>
+    <origin xyz="0 0 .05"/>
+  </xacro:macro>
+
+  <xacro:macro name="arm_2_link_1_visual">
+    <geometry>
+          <box size=".1 .05 .05"/>
+    </geometry>
+    <origin xyz="0 0 0.025"/>   
+    <material name="green"/>     
+  </xacro:macro>
+
+  <xacro:macro name="arm_2_joint_1_spec">
+    <axis xyz="0 0 1"/>
+    <limit effort="1000.0" lower="-.67" upper="2.67" velocity="0.5"/>
+    <origin xyz="0 0 0"/>
+  </xacro:macro>
+  
+  <xacro:macro name="arm_2_link_2_visual">
+    <geometry>
+      <box size=".1 .05 .2"/>
+    </geometry>
+    <origin xyz="0 0 .1"/>
+    <material name="gray"/>      
+  </xacro:macro>
+
+  <xacro:macro name="arm_2_joint_2_spec">
+    <axis xyz="1 0 0"/>
+    <limit effort="1000.0" lower="-1.47" upper="1.87" velocity="0.5"/>
+    <origin xyz="0 0 0.05"/>
+  </xacro:macro>
+  
+  <xacro:macro name="arm_2_link_3_visual">
+    <geometry>
+      <box size=".1 .05 .2"/>
+    </geometry>
+    <origin xyz="0 0 .1"/>
+    <material name="orange"/>     
+  </xacro:macro>
+
+  <xacro:macro name="arm_2_joint_3_spec">
+    <axis xyz="1 0 0"/>
+    <limit effort="1000.0" lower="-.87" upper="2.47" velocity="0.5"/>
+    <origin xyz="0 0 .3"/>
+  </xacro:macro>
+  
+  <xacro:macro name="arm_2_link_4_visual">
+    <geometry>
+      <box size=".1 .05 .05"/>
+    </geometry>
+    <origin xyz="0 0 .025"/>
+    <material name="gray"/>     
+  </xacro:macro>
+
+  <xacro:macro name="arm_2_joint_4_spec">
+    <axis xyz="0 0 1"/>
+    <limit effort="1000.0" lower="-1.67" upper="1.67" velocity="0.5"/>
+    <origin xyz="0 0 .2"/>
+  </xacro:macro>
+  
+  <xacro:macro name="arm_2_link_5_visual">
+    <geometry>
+      <box size=".1 .05 .05"/>
+    </geometry>
+    <origin xyz="0 0 .025"/>
+    <material name="gray"/>     
+  </xacro:macro>
+
+  <xacro:macro name="arm_2_joint_5_spec">
+    <axis xyz="1 0 0"/>
+    <limit effort="1000.0" lower="-1.67" upper="1.67" velocity="0.5"/>
+    <origin xyz="0 0 .05"/>
+  </xacro:macro>
+
+</robot>
