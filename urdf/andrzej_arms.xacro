@@ -31,6 +31,7 @@
       <visual>
         <xacro:call macro="arm_${arm_name}_link_${link_name}_visual"/>
       </visual>
+      <xacro:call macro="arm_${arm_name}_link_${link_name}_inertia"/> 
     </link>
 
     <joint name="arm_${arm_name}_joint_${link_name}" type="revolute">
