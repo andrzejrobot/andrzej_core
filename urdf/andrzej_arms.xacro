@@ -53,5 +53,21 @@
   <xacro:call macro="arm_base" arm_name="2" reflect="-1" />
   <xacro:call macro="arm" arm_name="1"/>
   <xacro:call macro="arm" arm_name="2"/>
+  
+  
+  <xacro:macro name="servo" params="arm_name link_name">
+    <transmission name="arm_${arm_name}_tran_${link_name}">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="arm_${arm_name}_joint_${link_name}">
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="arm_${arm_name}_servo_${link_name}">
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+
+  <xacro:call macro="servo" arm_name="1" link_name="1" />
 
 </robot>

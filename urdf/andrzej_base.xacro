@@ -1,6 +1,21 @@
 <?xml version="1.0"?>
 <robot name="andrzej" xmlns:xacro="http://ros.org/wiki/xacro">
   
+  <link name="base_footprint">
+   <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="base_link_joint" type="fixed">
+    <origin xyz="0.0 0 0" rpy="0 0 0" />
+    <parent link="base_footprint"/>
+    <child link="base_link" />
+  </joint>
+
   <link name="base_link">  
     <visual>
       <geometry>

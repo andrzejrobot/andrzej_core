@@ -22,6 +22,7 @@
     </inertial>
   </xacro:macro>
 
+  <xacro:include filename="$(find andrzej_description)/urdf/andrzej.gazebo" />
   <xacro:include filename="$(find andrzej_description)/urdf/andrzej_base.xacro" />
   <xacro:include filename="$(find andrzej_description)/urdf/andrzej_arms.xacro" />
   
