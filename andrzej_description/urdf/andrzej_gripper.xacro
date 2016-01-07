@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<robot name="andrzej" xmlns:xacro="http://ros.org/wiki/xacro">
+
+<xacro:macro name="finger" params="arm suffix reflect" >
+  
+  <link name="arm_${arm}_finger_${suffix}_link">
+    <visual>
+      <geometry>
+        <box size=".075 .02 .05"/>
+      </geometry>
+      <origin xyz=".0375 .02 0"/>
+      <material name="gray"/>
+    </visual>
+    
+    <visual>
+      <geometry>
+        <box size=".04 .01 .05"/>
+      </geometry>
+      <origin xyz=".055 .005 0"/>
+      <material name="black"/>
+    </visual>
+  </link>
+  
+  <joint name="arm_${arm}_finger_${suffix}_joint" type="revolute">
+    <axis xyz="0 0 1"/>
+    <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/>
+    <origin rpy="0 ${-pi/2} ${reflect*pi/2}" xyz="0 0 0.02"/>
+    <parent link="arm_${arm}_gripper_base"/>
+    <child link="arm_${arm}_finger_${suffix}_link"/>
+  </joint>
+  
+</xacro:macro>
+
+
+<xacro:macro name="gripper" params="arm" >
+
+  <link name="arm_${arm}_gripper_base">
+    <visual>
+      <geometry>
+        <box size=".1 .05 .02"/>
+      </geometry>
+      <origin xyz="0 0 .01"/>
+      <material name="gray"/>
+    </visual>
+  </link>
+
+  <joint name="arm_${arm}_gripper_base_joint" type="fixed">
+    <parent link="arm_${arm}_link_5"/>
+    <child link="arm_${arm}_gripper_base"/>
+    <origin rpy="0 0 0" xyz="0 0 0.05"/>
+  </joint>
+  
+  <xacro:call macro="finger" arm="${arm}" suffix="left" reflect="1"/>
+  <xacro:call macro="finger" arm="${arm}" suffix="right" reflect="-1"/>
+
+</xacro:macro>
+
+</robot>
