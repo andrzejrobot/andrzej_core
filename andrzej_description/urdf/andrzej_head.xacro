@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot name="andrzej" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="andrzej" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 <xacro:property name="head_pole_width" value=".025" />
 <xacro:property name="head_pole_height" value=".5" />
@@ -10,15 +10,14 @@
       <box size="${head_pole_width} ${head_pole_width} ${head_pole_height}"/>
     </geometry>
     <origin xyz="0 0 ${head_pole_height/2}"/>
-    <material name="green"/>
+    <material name="gray"/>
   </visual>
-  
+
   <visual>
     <geometry>
       <box size="${2*head_pole_width} ${2*head_pole_width} 0.01"/>
     </geometry>
     <origin xyz="0 0 0.005"/>
-    <material name="green"/>
   </visual>
 
   <xacro:default_inertial mass="${head_pole_mass}"/>
@@ -30,4 +29,81 @@
   <origin xyz="0 ${base_width/2 - head_pole_width} ${base_height/2}"/>
 </joint>
 
+<link name="head_base_link">
+  <visual>
+    <geometry>
+      <box size=".02 .06 .05"/>
+    </geometry>
+    <origin xyz="0 0 -.02"/>
+    <material name="black"/>
+  </visual>
+
+  <xacro:default_inertial mass=".1"/>
+</link>
+
+<joint name="head_base_joint" type="fixed">
+  <parent link="head_pole"/>
+  <child link="head_base_link"/>
+  <origin xyz="0 ${head_pole_width/2 + .03} ${head_pole_height}"/>
+</joint>
+
+<link name="head_pan_link">
+  <visual>
+    <geometry>
+      <box size=".04 .065 .03"/>
+    </geometry>
+    <origin xyz="-.01 0 .015"/>
+    <material name="black"/>
+  </visual>
+
+  <xacro:default_inertial mass=".1"/>
+</link>
+
+<joint name="head_pan_joint" type="revolute">
+  <axis xyz="0 0 1"/>
+  <limit effort="1000.0" lower="-.67" upper="2.67" velocity="0.5"/>
+  <origin xyz="0 -.01 .015"/>
+  <parent link="head_base_link"/>
+  <child link="head_pan_link"/>
+</joint>
+
+<link name="head_tilt_link">
+  <visual>
+    <geometry>
+      <box size=".005 .0275 .05"/>
+    </geometry>
+    <origin xyz="-.0375 0 .01"/>
+    <material name="black"/>
+  </visual>
+  <visual>
+    <geometry>
+      <box size=".005 .0275 .05"/>
+    </geometry>
+    <origin xyz=".0175 0 .01"/>
+  </visual>
+  <visual>
+    <geometry>
+      <box size=".055 .0275 .005"/>
+    </geometry>
+    <origin xyz="-.01 0 .035"/>
+  </visual>
+
+  <xacro:default_inertial mass=".1"/>
+</link>
+
+<joint name="head_tilt_joint" type="revolute">
+  <axis xyz="1 0 0"/>
+  <limit effort="1000.0" lower="-.67" upper="2.67" velocity="0.5"/>
+  <origin xyz="0 -.01 .015"/>
+  <parent link="head_pan_link"/>
+  <child link="head_tilt_link"/>
+</joint>
+
+<!--
+<xacro:include filename="$(find hector_sensors_description)/urdf/asus_camera.urdf.xacro"/>
+
+<xacro:asus_camera name="head_camera" parent="head_tilt_link">
+  <origin xyz="0 0 .05" rpy="0 0 -${pi/2}" />
+</xacro:asus_camera>
+-->
 </robot>
