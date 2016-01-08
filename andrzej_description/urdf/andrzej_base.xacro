@@ -54,7 +54,9 @@
       <axis xyz="0 1 0" rpy="0 0 0" />
       <parent link="base_link"/>
       <child link="${prefix}_wheel"/>
-      <origin xyz="${base_length*reflect_x/3} ${(base_width/2+wheel_width/2)*reflect_y} ${-base_height/2+wheel_diam/4}" rpy="0 0 0"/>
+      <origin xyz="${0.17*reflect_x} 
+                   ${(base_width/2 + wheel_width/2 + .02)*reflect_y}
+                   ${-base_height/2 + 0.02}" rpy="0 0 0"/>
     </joint>
 
   </xacro:macro>

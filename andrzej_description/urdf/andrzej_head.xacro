@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<robot name="andrzej" xmlns:xacro="http://ros.org/wiki/xacro">
+
+<xacro:property name="head_pole_width" value=".025" />
+<xacro:property name="head_pole_height" value=".5" />
+
+<link name="head_pole">
+  <visual>
+    <geometry>
+      <box size="${head_pole_width} ${head_pole_width} ${head_pole_height}"/>
+    </geometry>
+    <origin xyz="0 0 ${head_pole_height/2}"/>
+    <material name="green"/>
+  </visual>
+  
+  <visual>
+    <geometry>
+      <box size="${2*head_pole_width} ${2*head_pole_width} 0.01"/>
+    </geometry>
+    <origin xyz="0 0 0.005"/>
+    <material name="green"/>
+  </visual>
+
+  <xacro:default_inertial mass="${head_pole_mass}"/>
+</link>
+
+<joint name="head_pole_joint" type="fixed">
+  <parent link="base_link"/>
+  <child link="head_pole"/>
+  <origin xyz="0 ${base_width/2 - head_pole_width} ${base_height/2}"/>
+</joint>
+
+</robot>
