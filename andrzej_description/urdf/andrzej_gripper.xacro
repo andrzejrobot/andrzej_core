@@ -6,27 +6,27 @@
   <link name="arm_${arm}_finger_${suffix}_link">
     <visual>
       <geometry>
-        <box size=".075 .02 .05"/>
+        <box size=".01 .005 .08"/>
       </geometry>
-      <origin xyz=".0375 .02 0"/>
+      <origin xyz="0 ${reflect*0.025} .0325"/>
       <material name="gray"/>
     </visual>
 
     <visual>
       <geometry>
-        <box size=".04 .01 .05"/>
+        <box size=".02 .025 .04"/>
       </geometry>
-      <origin xyz=".055 .005 0"/>
-      <material name="black"/>
+      <origin xyz="-0.005 ${reflect*0.01} .045"/>
+      <material name="gray"/>
     </visual>
 
     <xacro:default_inertial mass="${gripper_finger_mass}"/>
   </link>
 
   <joint name="arm_${arm}_finger_${suffix}_joint" type="revolute">
-    <axis xyz="0 0 1"/>
+    <axis xyz="0 1 0"/>
     <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/>
-    <origin rpy="0 ${-pi/2} ${reflect*pi/2}" xyz="0 0 0.02"/>
+    <origin rpy="0 0 ${reflect*pi/2-pi/2}" xyz="${reflect*0.015} 0 0"/>
     <parent link="arm_${arm}_gripper_base"/>
     <child link="arm_${arm}_finger_${suffix}_link"/>
   </joint>
@@ -50,10 +50,10 @@
   <link name="arm_${arm}_gripper_base">
     <visual>
       <geometry>
-        <box size=".1 .05 .02"/>
+        <box size=".045 .04 .02"/>
       </geometry>
-      <origin xyz="0 0 .01"/>
-      <material name="gray"/>
+      <origin xyz="0 0 .005"/>
+      <material name="black"/>
     </visual>
 
     <xacro:default_inertial mass="${gripper_base_mass}"/>
