@@ -2,7 +2,7 @@
 <robot name="andrzej" xmlns:xacro="http://ros.org/wiki/xacro">
 
 <xacro:macro name="finger" params="arm suffix reflect" >
-  
+
   <link name="arm_${arm}_finger_${suffix}_link">
     <visual>
       <geometry>
@@ -11,7 +11,7 @@
       <origin xyz=".0375 .02 0"/>
       <material name="gray"/>
     </visual>
-    
+
     <visual>
       <geometry>
         <box size=".04 .01 .05"/>
@@ -19,8 +19,10 @@
       <origin xyz=".055 .005 0"/>
       <material name="black"/>
     </visual>
+
+    <xacro:default_inertial mass="${gripper_finger_mass}"/>
   </link>
-  
+
   <joint name="arm_${arm}_finger_${suffix}_joint" type="revolute">
     <axis xyz="0 0 1"/>
     <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/>
@@ -28,7 +30,18 @@
     <parent link="arm_${arm}_gripper_base"/>
     <child link="arm_${arm}_finger_${suffix}_link"/>
   </joint>
-  
+
+  <transmission name="arm_${arm}_finger_${suffix}_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="arm_${arm}_finger_${suffix}_joint">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="arm_${arm}_gripper_servo">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
 </xacro:macro>
 
 
@@ -42,6 +55,8 @@
       <origin xyz="0 0 .01"/>
       <material name="gray"/>
     </visual>
+
+    <xacro:default_inertial mass="${gripper_base_mass}"/>
   </link>
 
   <joint name="arm_${arm}_gripper_base_joint" type="fixed">
@@ -49,7 +64,7 @@
     <child link="arm_${arm}_gripper_base"/>
     <origin rpy="0 0 0" xyz="0 0 0.05"/>
   </joint>
-  
+
   <xacro:call macro="finger" arm="${arm}" suffix="left" reflect="1"/>
   <xacro:call macro="finger" arm="${arm}" suffix="right" reflect="-1"/>
 

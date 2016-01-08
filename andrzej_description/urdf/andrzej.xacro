@@ -12,6 +12,8 @@
   <xacro:property name="base_mass" value="5" />
   <xacro:property name="wheel_mass" value="0.3" />
   <xacro:property name="arm_base_mass" value="0.2" />
+  <xacro:property name="gripper_base_mass" value="0.03" />
+  <xacro:property name="gripper_finger_mass" value="0.02" />
 
   <xacro:include filename="$(find andrzej_description)/urdf/materials.xacro" />
 
