@@ -3,30 +3,39 @@
 
   <xacro:include filename="$(find andrzej_description)/urdf/andrzej_arms_spec.xacro" />
   <xacro:include filename="$(find andrzej_description)/urdf/andrzej_gripper.xacro" />
-  
+
   <xacro:macro name="arm_base" params="arm reflect">
     <link name="arm_${arm}_link_0">
       <visual>
         <geometry>
-          <box size="${arm_base_length} ${arm_base_width} ${arm_base_height}"/>
+          <box size=".15 .15 .035"/>
         </geometry>
+        <origin xyz="0 0 ${(.035)/2}"/>
         <material name="orange"/>
       </visual>
+
+      <visual>
+        <geometry>
+          <box size=".1 .1 .02"/>
+        </geometry>
+        <origin xyz="0 0 0.045"/>
+      </visual>
+
       <collision>
         <geometry>
-          <box size="${arm_base_length} ${arm_base_width} ${arm_base_height}"/>
+          <box size=".15 .15 .035"/>
         </geometry>
       </collision>
       <xacro:default_inertial mass="${arm_base_mass}"/>
     </link>
-    
+
     <joint name="platform_to_arm_${arm}" type="fixed">
       <parent link="base_link"/>
       <child link="arm_${arm}_link_0"/>
-      <origin xyz="${base_length*reflect/4} 0 ${(base_height+arm_base_height)/2}"/>
+      <origin xyz="${0.125*reflect} 0 ${base_height/2}"/>
     </joint>
   </xacro:macro>
-  
+
   <xacro:macro name="servo" params="arm link_name">
     <transmission name="arm_${arm}_tran_${link_name}">
       <type>transmission_interface/SimpleTransmission</type>
@@ -42,10 +51,8 @@
 
   <xacro:macro name="arm_link" params="arm link_name">
     <link name="arm_${arm}_link_${link_name}">
-      <visual>
-        <xacro:call macro="arm_${arm}_link_${link_name}_visual"/>
-      </visual>
-      <xacro:call macro="arm_${arm}_link_${link_name}_inertia"/> 
+      <xacro:call macro="arm_${arm}_link_${link_name}_visual"/>
+      <xacro:call macro="arm_${arm}_link_${link_name}_inertia"/>
     </link>
 
     <joint name="arm_${arm}_joint_${link_name}" type="revolute">
@@ -53,7 +60,7 @@
       <parent link="arm_${arm}_link_${link_name-1}"/>
       <child link="arm_${arm}_link_${link_name}"/>
     </joint>
-    
+
     <xacro:call macro="servo" arm="${arm}" link_name="${link_name}" />
   </xacro:macro>
 
@@ -65,7 +72,7 @@
     <xacro:arm_link arm="${arm_id}" link_name="5"/>
     <xacro:gripper arm="${arm_id}"/>
   </xacro:macro>
-  
+
   <xacro:call macro="arm_base" arm="1" reflect="1" />
   <xacro:call macro="arm_base" arm="2" reflect="-1" />
   <xacro:call macro="arm" arm_id="1"/>

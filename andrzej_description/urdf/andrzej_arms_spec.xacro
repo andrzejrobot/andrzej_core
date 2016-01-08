@@ -1,72 +1,155 @@
 <?xml version="1.0"?>
 <robot name="andrzej" xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:property name="arm_base_length" value=".2" />
-  <xacro:property name="arm_base_width" value=".2" />
-  <xacro:property name="arm_base_height" value=".05" />
+  <xacro:property name="arm_base_length" value=".15" />
+  <xacro:property name="arm_base_width" value=".15" />
+  <xacro:property name="arm_base_height" value=".055" />
 
   <xacro:macro name="arm_1_link_1_visual">
-    <geometry>
-          <box size=".1 .05 .05"/>
-    </geometry>
-    <origin xyz="0 0 0.025"/>   
-    <material name="green"/>     
+    <visual>
+      <geometry>
+          <cylinder radius="0.0375" length="0.02"/>
+      </geometry>
+      <origin xyz="0 0 -0.01"/>
+      <material name="gray"/>
+    </visual>
+    <visual>
+      <geometry>
+          <box size=".1 .1 .01"/>
+      </geometry>
+      <origin xyz="0 0 0.005"/>
+    </visual>
+    <visual>
+      <geometry>
+          <box size=".05 .05 .01"/>
+      </geometry>
+      <origin xyz="0.075 0 0.005"/>
+    </visual>
+    <visual>
+      <geometry>
+          <box size=".03 .025 .04"/>
+      </geometry>
+      <origin xyz="0.075 0 0.03"/>
+    </visual>
+    <visual>
+      <geometry>
+          <box size=".03 .025 .04"/>
+      </geometry>
+      <origin xyz="0 0 0.03"/>
+    </visual>
   </xacro:macro>
 
   <xacro:macro name="arm_1_joint_1_spec">
     <axis xyz="0 0 1"/>
     <limit effort="1000.0" lower="-.67" upper="2.67" velocity="0.5"/>
-    <origin xyz="0 0 0"/>
+    <origin xyz="0 0 .07"/>
   </xacro:macro>
-  
+
   <xacro:macro name="arm_1_link_2_visual">
-    <geometry>
-      <box size=".1 .05 .2"/>
-    </geometry>
-    <origin xyz="0 0 .1"/>
-    <material name="gray"/>      
+    <visual>
+      <geometry>
+        <box size=".005 .05 ${.2+.02}"/>
+      </geometry>
+      <origin xyz="-0.03 0 .1"/>
+      <material name="orange"/>
+    </visual>
+    <visual>
+      <geometry>
+        <box size=".005 .05 ${.2+.02}"/>
+      </geometry>
+      <origin xyz="0.03 0 .1"/>
+      <material name="orange"/>
+    </visual>
+    <visual>
+      <geometry>
+        <box size=".06 .02 .04"/>
+      </geometry>
+      <origin xyz="0 0 .1"/>
+      <material name="orange"/>
+    </visual>
   </xacro:macro>
 
   <xacro:macro name="arm_1_joint_2_spec">
     <axis xyz="1 0 0"/>
     <limit effort="1000.0" lower="-1.47" upper="1.87" velocity="0.5"/>
-    <origin xyz="0 0 0.05"/>
+    <origin xyz="0 0 0.04"/>
   </xacro:macro>
-  
+
   <xacro:macro name="arm_1_link_3_visual">
-    <geometry>
-      <box size=".1 .05 .2"/>
-    </geometry>
-    <origin xyz="0 0 .1"/>
-    <material name="orange"/>     
+    <visual>
+      <geometry>
+        <box size=".005 .03 .18"/>
+      </geometry>
+      <origin xyz="-.015 0 .05"/>
+      <material name="orange"/>
+    </visual>
+    <visual>
+      <geometry>
+        <box size=".005 .03 .18"/>
+      </geometry>
+      <origin xyz=".015 0 .05"/>
+      <material name="orange"/>
+    </visual>
+    <visual>
+      <geometry>
+        <box size=".045 .02 .05"/>
+      </geometry>
+      <origin xyz="0 0 -0.01"/>
+      <material name="orange"/>
+    </visual>
+    <visual>
+      <geometry>
+        <box size=".02 .05 .045"/>
+      </geometry>
+      <origin xyz="0 0 ${.14-.045/2}"/>
+      <material name="orange"/>
+    </visual>
   </xacro:macro>
 
   <xacro:macro name="arm_1_joint_3_spec">
     <axis xyz="1 0 0"/>
     <limit effort="1000.0" lower="-.87" upper="2.47" velocity="0.5"/>
-    <origin xyz="0 0 .3"/>
+    <origin xyz="0 0 .19"/>
   </xacro:macro>
-  
+
   <xacro:macro name="arm_1_link_4_visual">
-    <geometry>
-      <box size=".1 .05 .05"/>
-    </geometry>
-    <origin xyz="0 0 .025"/>
-    <material name="gray"/>     
+    <visual>
+      <geometry>
+        <box size=".05 .02 .06"/>
+      </geometry>
+      <origin xyz="0 0 .03"/>
+      <material name="gray"/>
+    </visual>
   </xacro:macro>
 
   <xacro:macro name="arm_1_joint_4_spec">
     <axis xyz="0 0 1"/>
     <limit effort="1000.0" lower="-1.67" upper="1.67" velocity="0.5"/>
-    <origin xyz="0 0 .2"/>
+    <origin xyz="0 0 .14"/>
   </xacro:macro>
-  
+
   <xacro:macro name="arm_1_link_5_visual">
-    <geometry>
-      <box size=".1 .05 .05"/>
-    </geometry>
-    <origin xyz="0 0 .025"/>
-    <material name="gray"/>     
+    <visual>
+      <geometry>
+        <box size=".005 .03 .05"/>
+      </geometry>
+      <origin xyz="-.0325 0 .005"/>
+      <material name="gray"/>
+    </visual>
+    <visual>
+      <geometry>
+        <box size=".005 .03 .05"/>
+      </geometry>
+      <origin xyz=".0325 0 .005"/>
+      <material name="gray"/>
+    </visual>
+    <visual>
+      <geometry>
+        <box size=".065 .03 .005"/>
+      </geometry>
+      <origin xyz="0 0 .03"/>
+      <material name="gray"/>
+    </visual>
   </xacro:macro>
 
   <xacro:macro name="arm_1_joint_5_spec">
@@ -76,25 +159,29 @@
   </xacro:macro>
 
   <xacro:macro name="arm_2_link_1_visual">
-    <geometry>
-          <box size=".1 .05 .05"/>
-    </geometry>
-    <origin xyz="0 0 0.025"/>   
-    <material name="green"/>     
+    <visual>
+      <geometry>
+            <box size=".1 .05 .05"/>
+      </geometry>
+      <origin xyz="0 0 0.025"/>
+      <material name="gray"/>
+    </visual>
   </xacro:macro>
 
   <xacro:macro name="arm_2_joint_1_spec">
     <axis xyz="0 0 1"/>
     <limit effort="1000.0" lower="-.67" upper="2.67" velocity="0.5"/>
-    <origin xyz="0 0 0"/>
+    <origin xyz="0 0 .055"/>
   </xacro:macro>
-  
+
   <xacro:macro name="arm_2_link_2_visual">
-    <geometry>
-      <box size=".1 .05 .2"/>
-    </geometry>
-    <origin xyz="0 0 .1"/>
-    <material name="gray"/>      
+    <visual>
+      <geometry>
+        <box size=".1 .05 .2"/>
+      </geometry>
+      <origin xyz="0 0 .1"/>
+      <material name="gray"/>
+    </visual>
   </xacro:macro>
 
   <xacro:macro name="arm_2_joint_2_spec">
@@ -102,13 +189,15 @@
     <limit effort="1000.0" lower="-1.47" upper="1.87" velocity="0.5"/>
     <origin xyz="0 0 0.05"/>
   </xacro:macro>
-  
+
   <xacro:macro name="arm_2_link_3_visual">
-    <geometry>
-      <box size=".1 .05 .2"/>
-    </geometry>
-    <origin xyz="0 0 .1"/>
-    <material name="orange"/>     
+    <visual>
+      <geometry>
+        <box size=".1 .05 .2"/>
+      </geometry>
+      <origin xyz="0 0 .1"/>
+      <material name="orange"/>
+    </visual>
   </xacro:macro>
 
   <xacro:macro name="arm_2_joint_3_spec">
@@ -116,13 +205,15 @@
     <limit effort="1000.0" lower="-.87" upper="2.47" velocity="0.5"/>
     <origin xyz="0 0 .3"/>
   </xacro:macro>
-  
+
   <xacro:macro name="arm_2_link_4_visual">
-    <geometry>
-      <box size=".1 .05 .05"/>
-    </geometry>
-    <origin xyz="0 0 .025"/>
-    <material name="gray"/>     
+    <visual>
+      <geometry>
+        <box size=".1 .05 .05"/>
+      </geometry>
+      <origin xyz="0 0 .025"/>
+      <material name="gray"/>
+    </visual>
   </xacro:macro>
 
   <xacro:macro name="arm_2_joint_4_spec">
@@ -130,13 +221,15 @@
     <limit effort="1000.0" lower="-1.67" upper="1.67" velocity="0.5"/>
     <origin xyz="0 0 .2"/>
   </xacro:macro>
-  
+
   <xacro:macro name="arm_2_link_5_visual">
-    <geometry>
-      <box size=".1 .05 .05"/>
-    </geometry>
-    <origin xyz="0 0 .025"/>
-    <material name="gray"/>     
+    <visual>
+      <geometry>
+        <box size=".1 .05 .05"/>
+      </geometry>
+      <origin xyz="0 0 .025"/>
+      <material name="gray"/>
+    </visual>
   </xacro:macro>
 
   <xacro:macro name="arm_2_joint_5_spec">
@@ -144,70 +237,70 @@
     <limit effort="1000.0" lower="-1.67" upper="1.67" velocity="0.5"/>
     <origin xyz="0 0 .05"/>
   </xacro:macro>
-  
+
   <xacro:macro name="arm_1_link_1_inertia">
     <inertial>
       <mass value="0.1" />
       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
     </inertial>
   </xacro:macro>
-  
+
   <xacro:macro name="arm_1_link_2_inertia">
     <inertial>
       <mass value="0.1" />
       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
     </inertial>
   </xacro:macro>
-  
+
   <xacro:macro name="arm_1_link_3_inertia">
     <inertial>
       <mass value="0.1" />
       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
     </inertial>
   </xacro:macro>
-  
+
   <xacro:macro name="arm_1_link_4_inertia">
     <inertial>
       <mass value="0.1" />
       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
     </inertial>
   </xacro:macro>
-  
+
   <xacro:macro name="arm_1_link_5_inertia">
     <inertial>
       <mass value="0.1" />
       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
     </inertial>
   </xacro:macro>
-  
+
   <xacro:macro name="arm_2_link_1_inertia">
     <inertial>
       <mass value="0.1" />
       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
     </inertial>
   </xacro:macro>
-  
+
   <xacro:macro name="arm_2_link_2_inertia">
     <inertial>
       <mass value="0.1" />
       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
     </inertial>
   </xacro:macro>
-  
+
   <xacro:macro name="arm_2_link_3_inertia">
     <inertial>
       <mass value="0.1" />
       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
     </inertial>
   </xacro:macro>
-  
+
   <xacro:macro name="arm_2_link_4_inertia">
     <inertial>
       <mass value="0.1" />
       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
     </inertial>
   </xacro:macro>
-  
+
   <xacro:macro name="arm_2_link_5_inertia">
     <inertial>
       <mass value="0.1" />
