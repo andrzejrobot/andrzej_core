@@ -19,4 +19,12 @@
     </plugin>
   </gazebo>
   
+  <gazebo reference="arm_1_finger_right_joint" type="gearbox">
+    <gearbox_ratio>1</gearbox_ratio>
+    <gearbox_reference_body>arm_1_finger_left_joint</gearbox_reference_body>
+  </gazebo>
+  <gazebo reference="arm_2_finger_right_joint">
+    <gearbox_ratio>1</gearbox_ratio>
+    <gearbox_reference_body>arm_2_finger_left_joint</gearbox_reference_body>
+  </gazebo>
 </robot>
