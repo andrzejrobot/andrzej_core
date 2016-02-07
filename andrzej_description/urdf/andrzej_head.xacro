@@ -99,6 +99,29 @@
   <child link="head_tilt_link"/>
 </joint>
 
+<transmission name="head_pan_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="head_pan_joint">
+    <hardwareInterface>PositionJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="head_pan_servo">
+    <hardwareInterface>PositionJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+
+<transmission name="head_tilt_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="head_tilt_joint">
+    <hardwareInterface>PositionJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="head_tilt_servo">
+    <hardwareInterface>PositionJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
 <!--
 <xacro:include filename="$(find hector_sensors_description)/urdf/asus_camera.urdf.xacro"/>
 
