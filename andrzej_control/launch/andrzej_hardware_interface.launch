@@ -1,0 +1,23 @@
+<launch>
+
+  <param name="robot_description" command="$(find xacro)/xacro.py --inorder $(find andrzej_description)/urdf/andrzej.xacro" />
+
+  <node name="andrzej_hardware_interface" pkg="andrzej_control" type="andrzej_hardware_interface" respawn="false" output="screen" ns="/andrzej" />
+
+  <rosparam file="$(find andrzej_control)/config/andrzej_control.yaml" command="load"/>
+
+  <node name="ros_control_controller_manager" pkg="controller_manager" type="controller_manager" respawn="false"
+          output="screen" ns="/robot" args="spawn
+                                            joint_state_controller
+                                            arm_1_controller
+                                            arm_1_gripper_controller
+                                            arm_2_controller
+                                            arm_2_gripper_controller
+                                            head_controller"/>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+    respawn="false" output="screen">
+    <remap from="/joint_states" to="/andrzej/joint_states" />
+  </node>
+
+</launch>
