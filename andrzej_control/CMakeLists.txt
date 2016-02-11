@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(andrzej_control)
 
+set(CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
+
 find_package(catkin REQUIRED COMPONENTS
     std_msgs
     roscpp
@@ -8,14 +10,14 @@ find_package(catkin REQUIRED COMPONENTS
     hardware_interface
     sensor_msgs
     trajectory_msgs
-)
+    )
 
 find_package(Boost REQUIRED COMPONENTS system)
 
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES andrzej_control
-  CATKIN_DEPENDS
+    INCLUDE_DIRS include
+    LIBRARIES pca9685
+    CATKIN_DEPENDS
     std_msgs
     roscpp
     controller_manager
@@ -28,15 +30,19 @@ catkin_package(
 
 # include_directories(include)
 include_directories(
-  ${catkin_INCLUDE_DIRS}
-  ${Boost_INCLUDE_DIRS}
+    include
+    ${catkin_INCLUDE_DIRS}
+    ${Boost_INCLUDE_DIRS}
 )
+
+add_library(pca9685 src/PCA9685.cpp src/I2C.cpp)
 
 add_executable(andrzej_hardware_interface src/andrzej_hardware_interface.cpp)
 target_link_libraries(andrzej_hardware_interface
-  ${catkin_LIBRARIES}
-  ${Boost_LIBRARIES}
-)
+    pca9685
+    ${catkin_LIBRARIES}
+    ${Boost_LIBRARIES}
+    )
 add_dependencies(andrzej_hardware_interface ${catkin_EXPORTED_TARGETS})
 
 #############

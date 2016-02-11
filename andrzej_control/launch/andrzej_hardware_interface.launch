@@ -6,8 +6,25 @@
 
   <rosparam file="$(find andrzej_control)/config/andrzej_control.yaml" command="load"/>
 
-  <node name="ros_control_controller_manager" pkg="controller_manager" type="controller_manager" respawn="false"
-          output="screen" ns="/robot" args="spawn
+  <node name="controller_loader" pkg="controller_manager" type="controller_manager" respawn="false"
+          output="screen" ns="/andrzej" args="
+                                            load
+                                            arm_1_joint_1_position_controller
+                                            arm_1_joint_2_position_controller
+                                            arm_1_joint_3_position_controller
+                                            arm_1_joint_4_position_controller
+                                            arm_1_joint_5_position_controller
+                                            arm_1_gripper_position_controller
+                                            arm_2_joint_1_position_controller
+                                            arm_2_joint_2_position_controller
+                                            arm_2_joint_3_position_controller
+                                            arm_2_joint_4_position_controller
+                                            arm_2_joint_5_position_controller
+                                            arm_2_gripper_position_controller"/>
+
+  <node name="controller_spawner" pkg="controller_manager" type="controller_manager" respawn="false"
+          output="screen" ns="/andrzej" args="
+                                            spawn
                                             joint_state_controller
                                             arm_1_controller
                                             arm_1_gripper_controller
