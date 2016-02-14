@@ -2,6 +2,8 @@
 #include <hardware_interface/joint_command_interface.h>
 #include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/robot_hw.h>
+
+#include "joint_hardware_interface.h"
 #include "PCA9685.h"
 
 class AndrzejHardwareInterface : public hardware_interface::RobotHW
@@ -18,8 +20,7 @@ private:
     hardware_interface::JointStateInterface jointStateInterface;
     hardware_interface::PositionJointInterface jointPosInterface;
 
-    std::array<std::string, JOINTS_PER_ARM> jointNames;
-    std::array<double, JOINTS_PER_ARM> jointCmd, jointPos, jointVel, jointEff;
+    std::array<JointHardwareInterface, JOINTS_PER_ARM> arm_1, arm_2;
 
-    std::shared_ptr<PCA9685> pwmDriverPtr;
+    PCA9685Ptr pwmDriverPtr;
 };

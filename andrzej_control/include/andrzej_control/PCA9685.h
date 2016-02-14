@@ -23,10 +23,13 @@
 
 #ifndef _PCA9685_H
 #define _PCA9685_H
-#include <inttypes.h>
-#include "I2C.h"
-// Register Definitions
 
+#include <inttypes.h>
+#include <memory>
+
+#include "I2C.h"
+
+// Register Definitions
 #define MODE1 0x00			//Mode  register  1
 #define MODE2 0x01			//Mode  register  2
 #define SUBADR1 0x02		//I2C-bus subaddress 1
@@ -46,6 +49,7 @@
 #define PRE_SCALE 0xFE		//prescaler for output frequency
 #define CLOCK_FREQ 25000000.0 //25MHz default osc clock
 //! Main class that exports features for PCA9685 chip
+
 class PCA9685 {
 public:
     PCA9685(int bus, int address);
@@ -60,5 +64,8 @@ private:
     I2C *i2c;
     void reset(void);
 };
+
+typedef std::shared_ptr<PCA9685> PCA9685Ptr;
+
 #endif
 

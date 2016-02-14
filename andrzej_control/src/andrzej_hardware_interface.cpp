@@ -8,33 +8,37 @@ AndrzejHardwareInterface::AndrzejHardwareInterface()
 {
     pwmDriverPtr = std::make_shared<PCA9685>(1,0x40);
 
-    for ( int i = 1; i <= 2*JOINTS_PER_ARM; i++ )
+    for ( int i = 0; i < JOINTS_PER_ARM; i++ )
     {
         std::stringstream ss;
-        ss << "arm_" << i/JOINTS_PER_ARM + 1 << "_joint_" << i%JOINTS_PER_ARM;
-        auto jointName = ss.str();
-
-        jointNames.push_back(jointName);
-
-        // connect and register the joint state interface
-        hardware_interface::JointStateHandle stateHandle(jointName, &pos[0], &vel[0], &eff[0]);
-
-        // connect and register the joint position interface
-        hardware_interface::JointHandle posHandle(jointStateInterface.getHandle(jointName), &cmd[0]);
+        ss << "arm_" << 1 << "_joint_" << i+1;
+        arm_1[i] = JointHardwareInterface(ss.str(), pwmDriverPtr);
+        arm_1[i].registerHandle(jointStateInterface, jointPosInterface);
+        ss.str(std::string());
+        ss << "arm_" << 2 << "_joint_" << i+1;
+        arm_2[i] = JointHardwareInterface(ss.str(), pwmDriverPtr);
+        arm_2[i].registerHandle(jointStateInterface, jointPosInterface);
     }
-
     registerInterface(&jointStateInterface);
     registerInterface(&jointPosInterface);
 }
 
 void AndrzejHardwareInterface::write()
 {
+    for (auto &joint : arm_1)
+        joint.write();
 
+    for (auto &joint : arm_2)
+        joint.write();
 }
 
 void AndrzejHardwareInterface::read()
 {
+    for (auto &joint : arm_1)
+        joint.read();
 
+    for (auto &joint : arm_2)
+        joint.read();
 }
 
 int main(int argc, char** argv)
