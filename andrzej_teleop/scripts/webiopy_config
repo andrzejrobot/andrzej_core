@@ -1,0 +1,131 @@
+[GPIO]
+
+#------------------------------------------------------------------------#
+
+[~GPIO]
+
+#------------------------------------------------------------------------#
+
+[SCRIPTS]
+controlapp = /usr/local/bin/andrzej_control/webiopy.py
+
+#------------------------------------------------------------------------#
+
+[HTTP]
+enabled = true
+port = 8000
+
+#------------------------------------------------------------------------#
+
+[COAP]
+enabled = false
+port = 5683
+multicast = true
+
+#------------------------------------------------------------------------#
+
+[DEVICES]
+
+#------------------------------------------------------------------------#
+
+[REST]
+gpio-post-value = true
+gpio-post-function = false
+
+#------------------------------------------------------------------------#
+
+[ROUTES]
+#/motor/3/dir  = /GPIO/27/value
+#/motor/1/dir  = /GPIO/22/value
+#/motor/2/dir  = /GPIO/23/value
+#/motor/0/dir  = /GPIO/24/value
+#/motor/pwm    = /macros/allPWM
+#/motor/*/pwm  = /macros/allPWM
+#/motor/alldir = /macros/allDir
+#/motor/*/dir  = /macros/allDir
+
+#/manipulator/0/servo/0/down = /macros/servoDown/0
+#/manipulator/0/servo/1/down = /macros/servoDown/1
+#/manipulator/0/servo/2/down = /macros/servoDown/2
+#/manipulator/0/servo/3/down = /macros/servoDown/3
+#/manipulator/0/servo/4/down = /macros/servoDown/4
+#/manipulator/0/servo/5/down = /macros/servoDown/5
+#/manipulator/1/servo/0/down = /macros/servoDown/6
+#/manipulator/1/servo/1/down = /macros/servoDown/7
+#/manipulator/1/servo/2/down = /macros/servoDown/8
+#/manipulator/1/servo/3/down = /macros/servoDown/9
+#/manipulator/1/servo/4/down = /macros/servoDown/10
+#/manipulator/1/servo/5/down = /macros/servoDown/11
+
+#/manipulator/0/servo/0/up = /macros/servoUp/0
+#/manipulator/0/servo/1/up = /macros/servoUp/1
+#/manipulator/0/servo/2/up = /macros/servoUp/2
+#/manipulator/0/servo/3/up = /macros/servoUp/3
+#/manipulator/0/servo/4/up = /macros/servoUp/4
+#/manipulator/0/servo/5/up = /macros/servoUp/5
+#/manipulator/1/servo/0/up = /macros/servoUp/6
+#/manipulator/1/servo/1/up = /macros/servoUp/7
+#/manipulator/1/servo/2/up = /macros/servoUp/8
+#/manipulator/1/servo/3/up = /macros/servoUp/9
+#/manipulator/1/servo/4/up = /macros/servoUp/10
+#/manipulator/1/servo/5/up = /macros/servoUp/11
+
+#/manipulator/0/servo/0/stop = /macros/servoStop/0
+#/manipulator/0/servo/1/stop = /macros/servoStop/1
+#/manipulator/0/servo/2/stop = /macros/servoStop/2
+#/manipulator/0/servo/3/stop = /macros/servoStop/3
+#/manipulator/0/servo/4/stop = /macros/servoStop/4
+#/manipulator/0/servo/5/stop = /macros/servoStop/5
+#/manipulator/1/servo/0/stop = /macros/servoStop/6
+#/manipulator/1/servo/1/stop = /macros/servoStop/7
+#/manipulator/1/servo/2/stop = /macros/servoStop/8
+#/manipulator/1/servo/3/stop = /macros/servoStop/9
+#/manipulator/1/servo/4/stop = /macros/servoStop/10
+#/manipulator/1/servo/5/stop = /macros/servoStop/11
+
+#/manipulator/0/servo/0/integer/ = /macros/servoPosition/0,
+#/manipulator/0/servo/1/integer/ = /macros/servoPosition/1,
+#/manipulator/0/servo/2/integer/ = /macros/servoPosition/2,
+#/manipulator/0/servo/3/integer/ = /macros/servoPosition/3,
+#/manipulator/0/servo/4/integer/ = /macros/servoPosition/4,
+#/manipulator/0/servo/5/integer/ = /macros/servoPosition/5,
+#/manipulator/1/servo/0/integer/ = /macros/servoPosition/6,
+#/manipulator/1/servo/1/integer/ = /macros/servoPosition/7,
+#/manipulator/1/servo/2/integer/ = /macros/servoPosition/8,
+#/manipulator/1/servo/3/integer/ = /macros/servoPosition/9,
+#/manipulator/1/servo/4/integer/ = /macros/servoPosition/10,
+#/manipulator/1/servo/5/integer/ = /macros/servoPosition/11,
+
+#/gimbal/pan/integer/ = /macros/servoPosition/12,
+#/gimbal/tilt/integer/ = /macros/servoPosition/13,
+
+#/manipulator/0/servo/0/position = /devices/pwm0/pwm/0/integer
+#/manipulator/0/servo/1/position = /devices/pwm0/pwm/1/integer
+#/manipulator/0/servo/2/position = /devices/pwm0/pwm/2/integer
+#/manipulator/0/servo/3/position = /devices/pwm0/pwm/3/integer
+#/manipulator/0/servo/4/position = /devices/pwm0/pwm/4/integer
+#/manipulator/0/servo/5/position = /devices/pwm0/pwm/5/integer
+#/manipulator/1/servo/0/position = /devices/pwm0/pwm/6/integer
+#/manipulator/1/servo/1/position = /devices/pwm0/pwm/7/integer
+#/manipulator/1/servo/2/position = /devices/pwm0/pwm/8/integer
+#/manipulator/1/servo/3/position = /devices/pwm0/pwm/9/integer
+#/manipulator/1/servo/4/position = /devices/pwm0/pwm/10/integer
+#/manipulator/1/servo/5/position = /devices/pwm0/pwm/11/integer
+
+#/manipulator/0/gripper/open = /macros/servoPosition/5,150
+#/manipulator/1/gripper/open = /macros/servoPosition/11,200
+#/manipulator/0/gripper/close = /macros/servoPosition/5,300
+#/manipulator/1/gripper/close = /macros/servoPosition/11,400
+
+#/manipulator/velocity/ = /macros/manipulatorVelocity/
+
+#/manipulator/base = /macros/manipulatorBase
+
+#/manipulator/0/off = /macros/manipulatorOff/0
+#/manipulator/1/off = /macros/manipulatorOff/1
+#/manipulator/*/off = /macros/manipulatorOff/*
+#/manipulator/0/on = /macros/manipulatorOn/0
+#/manipulator/1/on = /macros/manipulatorOn/1
+#/manipulator/*/on = /macros/manipulatorOn/*
+
+/platform/move/angle/ = /macros/mecanumDriveIK/
