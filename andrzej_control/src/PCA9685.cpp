@@ -33,7 +33,7 @@
 #include <errno.h>
 #include <math.h>
 
-#include "PCA9685.h"
+#include "andrzej_control/PCA9685.h"
 
 //! Constructor takes bus and address arguments
 /*!
