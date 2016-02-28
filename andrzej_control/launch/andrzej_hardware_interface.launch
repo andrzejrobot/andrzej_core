@@ -2,7 +2,7 @@
 
   <param name="robot_description" command="$(find xacro)/xacro.py --inorder $(find andrzej_description)/urdf/andrzej.xacro" />
 
-  <group ns="my_robot">
+  <group ns="andrzej">
 
     <node name="andrzej_hw" pkg="andrzej_control" type="andrzej_hardware_interface" output="screen"/>
 
