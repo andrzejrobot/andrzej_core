@@ -24,7 +24,6 @@ catkin_package(
     hardware_interface
     sensor_msgs
     trajectory_msgs
-    ros_controllers
 )
 
 # include_directories(include)
