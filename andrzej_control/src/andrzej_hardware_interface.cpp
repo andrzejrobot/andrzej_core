@@ -41,32 +41,37 @@ void AndrzejHardwareInterface::read()
         joint.read();
 }
 
+ros::Time AndrzejHardwareInterface::get_time()
+{
+    prev_update_time = curr_update_time;
+    curr_update_time = ros::Time::now();
+    return curr_update_time;
+}
+
+ros::Duration AndrzejHardwareInterface::get_period()
+{
+    return curr_update_time - prev_update_time;
+}
+
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "andrzej_hardware_interface");
-    ros::NodeHandle n;
-    ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
+    ros::NodeHandle nh;
+
     ros::Rate loop_rate(10);
 
-    AndrzejHardwareInterface robot;
-    controller_manager::ControllerManager cm(&robot);
+    ros::AsyncSpinner spinner(2);
+    spinner.start();
 
-    int count = 0;
+    AndrzejHardwareInterface robot;
+    controller_manager::ControllerManager cm(&robot, nh);
+
     while (ros::ok())
     {
-        std_msgs::String msg;
-        std::stringstream ss;
-        ss << "hello world " << count;
-        msg.data = ss.str();
-        chatter_pub.publish(msg);
-
         robot.read();
-        cm.update(ros::Time::now(), ros::Duration(0.1));
+        cm.update(robot.get_time(), robot.get_period());
         robot.write();
-
-        ros::spinOnce();
         loop_rate.sleep();
-        ++count;
     }
 
     return 0;

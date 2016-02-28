@@ -37,5 +37,5 @@ void JointHardwareInterface::setGoal(double goal)
 
 int JointHardwareInterface::getPos(void)
 {
-    return 0;
+    return cmd;
 }
