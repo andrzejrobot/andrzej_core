@@ -22,17 +22,15 @@ public:
     void registerHandle( hardware_interface::JointStateInterface& stateInterface,
                          hardware_interface::PositionJointInterface& posInterface);
 
-    void setGoal(double goal);
-    int getPos(void);
-
 private:
-    int PWMtoRADratio = 1;
-    int PWMtoRADoffset = 0;
     std::string name = "";
 
     double cmd, pos, vel, eff;
 
     PCA9685Ptr driverPtr;
+    int channel = 0;
+    int offset = 0;
+    float ratio = 1.f;
 };
 
 

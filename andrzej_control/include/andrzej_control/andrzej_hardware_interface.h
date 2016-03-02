@@ -17,7 +17,7 @@ public:
     ros::Duration get_period(void);
 
 private:
-    static const int JOINTS_PER_ARM = 5;
+    static const uint JOINTS_PER_ARM = 5;
 
     hardware_interface::JointStateInterface jointStateInterface;
     hardware_interface::PositionJointInterface jointPosInterface;

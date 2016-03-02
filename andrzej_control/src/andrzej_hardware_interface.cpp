@@ -8,7 +8,7 @@ AndrzejHardwareInterface::AndrzejHardwareInterface()
 {
     pwmDriverPtr = std::make_shared<PCA9685>(1,0x40);
 
-    for ( int i = 0; i < JOINTS_PER_ARM; i++ )
+    for ( uint i = 0; i < JOINTS_PER_ARM; i++ )
     {
         std::stringstream ss;
         ss << "arm_" << 1 << "_joint_" << i+1;
