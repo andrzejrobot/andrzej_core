@@ -43,7 +43,7 @@
 PCA9685::PCA9685(int bus, int address) {
     i2c = new I2C(bus,address);
     reset();
-    setPWMFreq(1000);
+    setPWMFreq(50);
 }
 
 PCA9685::~PCA9685() {
