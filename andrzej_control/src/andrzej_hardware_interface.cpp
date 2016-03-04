@@ -13,18 +13,21 @@ AndrzejHardwareInterface::AndrzejHardwareInterface()
         std::stringstream ss;
         ss << "arm_" << 1 << "_joint_" << i+1;
         arm_1[i] = JointHardwareInterface(ss.str(), pwmDriverPtr);
-        arm_1[i].registerHandle(jointStateInterface, jointPosInterface);
+        arm_1[i].registerHandle(jointStateInterface, jointPosInterface, jointLimInterface);
         ss.str(std::string());
         ss << "arm_" << 2 << "_joint_" << i+1;
         arm_2[i] = JointHardwareInterface(ss.str(), pwmDriverPtr);
-        arm_2[i].registerHandle(jointStateInterface, jointPosInterface);
+        arm_2[i].registerHandle(jointStateInterface, jointPosInterface, jointLimInterface);
     }
     registerInterface(&jointStateInterface);
     registerInterface(&jointPosInterface);
+    registerInterface(&jointLimInterface);
 }
 
-void AndrzejHardwareInterface::write()
+void AndrzejHardwareInterface::write(const ros::Duration& period)
 {
+    jointLimInterface.enforceLimits(period);
+
     for (auto &joint : arm_1)
         joint.write();
 
@@ -65,12 +68,14 @@ int main(int argc, char** argv)
 
     AndrzejHardwareInterface robot;
     controller_manager::ControllerManager cm(&robot, nh);
+    ros::Duration elapsed_time = robot.get_period();
 
     while (ros::ok())
     {
         robot.read();
-        cm.update(robot.get_time(), robot.get_period());
-        robot.write();
+        cm.update(robot.get_time(), elapsed_time);
+        elapsed_time = robot.get_period();
+        robot.write(elapsed_time);
         loop_rate.sleep();
     }
 

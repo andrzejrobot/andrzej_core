@@ -4,6 +4,7 @@
 
 #include <ros/node_handle.h>
 #include "andrzej_control/joint_hardware_interface.h"
+#include <joint_limits_interface/joint_limits_rosparam.h>
 
 JointHardwareInterface::JointHardwareInterface(std::string resourceName, PCA9685Ptr pwmDriverPtr):
         name(resourceName), driverPtr(pwmDriverPtr)
@@ -14,16 +15,25 @@ JointHardwareInterface::JointHardwareInterface(std::string resourceName, PCA9685
     nh.getParam(name + "_servo/channel", channel);
     nh.getParam(name + "_servo/offset", offset);
     nh.getParam(servo_type + "_ratio", ratio);
+
+    if( getJointLimits(name, nh, limits) )
+        ROS_ERROR("Unable to load limits for %s", name.c_str());
+    else
+        ROS_INFO("Loaded limits for %s, min: %lf, max: %lf", name.c_str(), limits.min_position, limits.max_position);
 }
 
 void JointHardwareInterface::registerHandle( hardware_interface::JointStateInterface& stateInterface,
-                                             hardware_interface::PositionJointInterface& posInterface)
+                                             hardware_interface::PositionJointInterface& posInterface,
+                                             joint_limits_interface::PositionJointSaturationInterface& limInterface)
 {
     hardware_interface::JointStateHandle stateHandle(name, &pos, &vel, &eff);
     stateInterface.registerHandle(stateHandle);
 
     hardware_interface::JointHandle posHandle(stateInterface.getHandle(name), &cmd);
     posInterface.registerHandle(posHandle);
+
+    joint_limits_interface::PositionJointSaturationHandle limHandle(posInterface.getHandle(name), limits);
+    limInterface.registerHandle(limHandle);
 }
 
 void JointHardwareInterface::write()

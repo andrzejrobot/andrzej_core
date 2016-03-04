@@ -8,6 +8,7 @@
 #include <string>
 #include <hardware_interface/joint_command_interface.h>
 #include <hardware_interface/joint_state_interface.h>
+#include <joint_limits_interface/joint_limits_interface.h>
 
 #include "PCA9685.h"
 
@@ -20,7 +21,8 @@ public:
     void read(void);
 
     void registerHandle( hardware_interface::JointStateInterface& stateInterface,
-                         hardware_interface::PositionJointInterface& posInterface);
+                         hardware_interface::PositionJointInterface& posInterface,
+                         joint_limits_interface::PositionJointSaturationInterface& limInterface);
 
 private:
     std::string name = "";
@@ -31,6 +33,8 @@ private:
     int channel = 0;
     int offset = 0;
     float ratio = 1.f;
+
+    joint_limits_interface::JointLimits limits;
 };
 
 
