@@ -3,8 +3,9 @@
 //
 
 #include <ros/node_handle.h>
+#include <urdf/model.h>
 #include "andrzej_control/joint_hardware_interface.h"
-#include <joint_limits_interface/joint_limits_rosparam.h>
+#include <joint_limits_interface/joint_limits_urdf.h>
 
 JointHardwareInterface::JointHardwareInterface(std::string resourceName, PCA9685Ptr pwmDriverPtr):
         name(resourceName), driverPtr(pwmDriverPtr)
@@ -16,7 +17,15 @@ JointHardwareInterface::JointHardwareInterface(std::string resourceName, PCA9685
     nh.getParam(name + "_servo/offset", offset);
     nh.getParam(servo_type + "_ratio", ratio);
 
-    if( getJointLimits(name, nh, limits) )
+    std::string robot_description;
+    if ( !nh.getParam("robot_description", robot_description) )
+        ROS_ERROR("Unable to load robot description");
+
+    urdf::Model model;
+    model.initString(robot_description);
+
+    auto joint_description = model.getJoint(name);
+    if( getJointLimits(joint_description, limits) )
         ROS_ERROR("Unable to load limits for %s", name.c_str());
     else
         ROS_INFO("Loaded limits for %s, min: %lf, max: %lf", name.c_str(), limits.min_position, limits.max_position);

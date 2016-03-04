@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
     controller_manager
     hardware_interface
     sensor_msgs
+    urdf
     trajectory_msgs
     )
 
@@ -20,6 +21,7 @@ catkin_package(
     CATKIN_DEPENDS
     std_msgs
     roscpp
+    urdf
     controller_manager
     hardware_interface
     sensor_msgs
