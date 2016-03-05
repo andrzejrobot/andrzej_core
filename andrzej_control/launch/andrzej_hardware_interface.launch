@@ -1,8 +1,7 @@
 <launch>
-
-  <param name="robot_description" command="$(find xacro)/xacro.py --inorder $(find andrzej_description)/urdf/andrzej.xacro" />
-
   <group ns="andrzej">
+
+    <param name="robot_description" command="$(find xacro)/xacro.py --inorder $(find andrzej_description)/urdf/andrzej.xacro" />
 
     <node name="andrzej_hw" pkg="andrzej_control" type="andrzej_hardware_interface" output="screen"/>
 

@@ -6,6 +6,7 @@
 #define ANDRZEJ_CONTROL_JOINT_HARDWARE_INTERFACE_H
 
 #include <string>
+#include <urdf/model.h>
 #include <hardware_interface/joint_command_interface.h>
 #include <hardware_interface/joint_state_interface.h>
 #include <joint_limits_interface/joint_limits_interface.h>
@@ -15,7 +16,7 @@
 class JointHardwareInterface {
 public:
     JointHardwareInterface() = default;
-    JointHardwareInterface(std::string resourceName, PCA9685Ptr pwmDriverPtr);
+    JointHardwareInterface(std::string resourceName, PCA9685Ptr pwmDriverPtr, const urdf::Model& model);
 
     void write(void);
     void read(void);

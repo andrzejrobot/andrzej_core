@@ -6,17 +6,28 @@
 
 AndrzejHardwareInterface::AndrzejHardwareInterface()
 {
+    ros::NodeHandle nh;
+    std::string robot_description;
+    if ( !nh.getParam("robot_description", robot_description) )
+        ROS_ERROR("Unable to load robot description");
+    else
+        ROS_INFO("%s", robot_description.c_str());
+
+    urdf::Model model;
+    if( !model.initString(robot_description) )
+        ROS_ERROR("Unable to initialize urdf model");
+
     pwmDriverPtr = std::make_shared<PCA9685>(1,0x40);
 
     for ( uint i = 0; i < JOINTS_PER_ARM; i++ )
     {
         std::stringstream ss;
         ss << "arm_" << 1 << "_joint_" << i+1;
-        arm_1[i] = JointHardwareInterface(ss.str(), pwmDriverPtr);
+        arm_1[i] = JointHardwareInterface(ss.str(), pwmDriverPtr, model);
         arm_1[i].registerHandle(jointStateInterface, jointPosInterface, jointLimInterface);
         ss.str(std::string());
         ss << "arm_" << 2 << "_joint_" << i+1;
-        arm_2[i] = JointHardwareInterface(ss.str(), pwmDriverPtr);
+        arm_2[i] = JointHardwareInterface(ss.str(), pwmDriverPtr, model);
         arm_2[i].registerHandle(jointStateInterface, jointPosInterface, jointLimInterface);
     }
     registerInterface(&jointStateInterface);
