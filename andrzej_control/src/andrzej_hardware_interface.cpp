@@ -30,6 +30,12 @@ AndrzejHardwareInterface::AndrzejHardwareInterface()
         arm_2[i] = HobbyServoHardwareInterface(ss.str(), pwmDriverPtr, model);
         arm_2[i].registerHandle(jointStateInterface, jointPosInterface, jointLimInterface);
     }
+
+    headPan = HobbyServoHardwareInterface("head_pan_joint", pwmDriverPtr, model);
+    headPan.registerHandle(jointStateInterface, jointPosInterface, jointLimInterface);
+    headTilt = HobbyServoHardwareInterface("head_tilt_joint", pwmDriverPtr, model);
+    headTilt.registerHandle(jointStateInterface, jointPosInterface, jointLimInterface);
+
     registerInterface(&jointStateInterface);
     registerInterface(&jointPosInterface);
     registerInterface(&jointLimInterface);
@@ -44,6 +50,9 @@ void AndrzejHardwareInterface::write()
 
     for (auto &joint : arm_2)
         joint.write();
+
+    headPan.write();
+    headTilt.write();
 }
 
 void AndrzejHardwareInterface::read()
@@ -53,6 +62,9 @@ void AndrzejHardwareInterface::read()
 
     for (auto &joint : arm_2)
         joint.read();
+
+    headPan.read();
+    headTilt.read();
 }
 
 ros::Time AndrzejHardwareInterface::get_time()
