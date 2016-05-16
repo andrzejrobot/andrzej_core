@@ -1,75 +1,71 @@
 arm_1_joint_1_servo:
-  type: turnigy
-  channel: 0
-  offset: 250
+  channel: 1
+  offset: 432
+  direction: -1
 
 arm_1_joint_2_servo:
-  type: turnigy
-  channel: 1
-  offset: 250
+  channel: 2
+  offset: 262
+  direction: 1
 
 arm_1_joint_3_servo:
-  type: turnigy
-  channel: 2
-  offset: 250
+  channel: 3
+  offset: 190
+  direction: 1
 
 arm_1_joint_4_servo:
-  type: turnigy
-  channel: 3
-  offset: 250
+  channel: 4
+  offset: 319
+  direction: 1
 
 arm_1_joint_5_servo:
-  type: turnigy
-  channel: 4
-  offset: 250
+  channel: 5
+  offset: 367
+  direction: -1
 
 arm_1_gripper_servo:
-  type: mg995
-  channel: 5
-  offset: 250
+  channel: 6
+  offset: 200
+  direction: 1
 
 
 arm_2_joint_1_servo:
-  type: turnigy
-  channel: 6
-  offset: 250
+  channel: 7
+  offset: 187
+  direction: 1
 
 arm_2_joint_2_servo:
-  type: turnigy
-  channel: 7
-  offset: 250
+  channel: 8
+  offset: 400
+  direction: -1
 
 arm_2_joint_3_servo:
-  type: turnigy
-  channel: 8
-  offset: 250
+  channel: 9
+  offset: 427
+  direction: -1
 
 arm_2_joint_4_servo:
-  type: turnigy
-  channel: 9
-  offset: 250
+  channel: 10
+  offset: 300
+  direction: 1
 
 arm_2_joint_5_servo:
-  offset: 250
-  type: turnigy
-  channel: 10
+  channel: 11
+  offset: 400
+  direction: -1
 
 arm_2_gripper_servo:
-  type: mg995
-  channel: 11
-  offset: 250
+  channel: 12
+  offset: 300
+  direction: 1
 
 
 head_pan_joint_servo:
-  type: mg995
-  channel: 0
-  offset: 250
+  channel: 13
+  offset: 350
+  direction: -1
 
 head_tilt_joint_servo:
-  type: mg995
-  channel: 0
-  offset: 250
-
-
-mg995_ratio: 2
-turnigy_ratio: 2
+  channel: 14
+  offset: 362
+  direction: -1

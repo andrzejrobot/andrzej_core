@@ -12,7 +12,7 @@ class AndrzejHardwareInterface : public hardware_interface::RobotHW
 public:
     AndrzejHardwareInterface();
 
-    void write(const ros::Duration& period);
+    void write(void);
     void read(void);
     ros::Time get_time(void);
     ros::Duration get_period(void);
@@ -26,7 +26,7 @@ private:
 
     ros::Time curr_update_time, prev_update_time;
 
-    std::array<JointHardwareInterface, JOINTS_PER_ARM> arm_1, arm_2;
+    std::array<HobbyServoHardwareInterface, JOINTS_PER_ARM> arm_1, arm_2;
 
     PCA9685Ptr pwmDriverPtr;
 };

@@ -13,10 +13,10 @@
 
 #include "PCA9685.h"
 
-class JointHardwareInterface {
+class HobbyServoHardwareInterface {
 public:
-    JointHardwareInterface() = default;
-    JointHardwareInterface(std::string resourceName, PCA9685Ptr pwmDriverPtr, const urdf::Model& model);
+    HobbyServoHardwareInterface() = default;
+    HobbyServoHardwareInterface(std::string resourceName, PCA9685Ptr pwmDriverPtr, const urdf::Model& model);
 
     void write(void);
     void read(void);
@@ -26,16 +26,27 @@ public:
                          joint_limits_interface::PositionJointSaturationInterface& limInterface);
 
 private:
-    std::string name = "";
+    static const double RAD_PER_PWM = 130.3478983923;
+    static const double PWM_PER_RAD = 1/RAD_PER_PWM;
+    static const double MAX_PWM = 500;
+    static const double MIN_PWM = 180;
 
+    std::string name = "";
     double cmd, pos, vel, eff;
 
     PCA9685Ptr driverPtr;
     int channel = 0;
     int offset = 0;
-    float ratio = 1.f;
+    int dir = 0;
 
     joint_limits_interface::JointLimits limits;
+
+    void initServoParams(void);
+    void initJointLimits(const urdf::Model& model);
+    void initBasePosition(void);
+
+    double pwmToRad(int pwm) const;
+    int radToPwm(double rad) const;
 };
 
 

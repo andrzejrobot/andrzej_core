@@ -23,11 +23,11 @@ AndrzejHardwareInterface::AndrzejHardwareInterface()
     {
         std::stringstream ss;
         ss << "arm_" << 1 << "_joint_" << i+1;
-        arm_1[i] = JointHardwareInterface(ss.str(), pwmDriverPtr, model);
+        arm_1[i] = HobbyServoHardwareInterface(ss.str(), pwmDriverPtr, model);
         arm_1[i].registerHandle(jointStateInterface, jointPosInterface, jointLimInterface);
         ss.str(std::string());
         ss << "arm_" << 2 << "_joint_" << i+1;
-        arm_2[i] = JointHardwareInterface(ss.str(), pwmDriverPtr, model);
+        arm_2[i] = HobbyServoHardwareInterface(ss.str(), pwmDriverPtr, model);
         arm_2[i].registerHandle(jointStateInterface, jointPosInterface, jointLimInterface);
     }
     registerInterface(&jointStateInterface);
@@ -35,9 +35,9 @@ AndrzejHardwareInterface::AndrzejHardwareInterface()
     registerInterface(&jointLimInterface);
 }
 
-void AndrzejHardwareInterface::write(const ros::Duration& period)
+void AndrzejHardwareInterface::write()
 {
-    jointLimInterface.enforceLimits(period);
+    jointLimInterface.enforceLimits(get_period());
 
     for (auto &joint : arm_1)
         joint.write();
@@ -79,14 +79,19 @@ int main(int argc, char** argv)
 
     AndrzejHardwareInterface robot;
     controller_manager::ControllerManager cm(&robot, nh);
-    ros::Duration elapsed_time = robot.get_period();
+
+    int cnt = 0;
 
     while (ros::ok())
     {
         robot.read();
-        cm.update(robot.get_time(), elapsed_time);
-        elapsed_time = robot.get_period();
-        robot.write(elapsed_time);
+        cm.update(robot.get_time(), robot.get_period());
+        robot.write();
+        if(cnt++ == 10)
+        {
+            ROS_INFO("Period %lf", robot.get_period().toSec());
+            cnt = 0;
+        }
         loop_rate.sleep();
     }
 
