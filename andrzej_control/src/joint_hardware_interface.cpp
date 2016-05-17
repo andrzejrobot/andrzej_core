@@ -35,7 +35,7 @@ void HobbyServoHardwareInterface::initJointLimits(const urdf::Model& model)
     auto minPwm = radToPwm(limits.min_position);
     auto maxPwm = radToPwm(limits.max_position);
     if(minPwm < MIN_PWM || maxPwm > MAX_PWM)
-        ROS_ERROR("WARNING: %s pwm limits %d - %d exceeds servo capabilities", minPwm, maxPwm);
+        ROS_ERROR("WARNING: %s pwm limits %d - %d exceeds servo capabilities", name.c_str(), minPwm, maxPwm);
 }
 
 void HobbyServoHardwareInterface::initBasePosition(void)

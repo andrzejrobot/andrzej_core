@@ -1,10 +1,9 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(andrzej_control)
 
-set(CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "-std=c++1y ${CMAKE_CXX_FLAGS}")
 
 find_package(catkin REQUIRED COMPONENTS
-    std_msgs
     roscpp
     controller_manager
     hardware_interface
@@ -19,7 +18,6 @@ catkin_package(
     INCLUDE_DIRS include
     LIBRARIES pca9685
     CATKIN_DEPENDS
-    std_msgs
     roscpp
     urdf
     controller_manager

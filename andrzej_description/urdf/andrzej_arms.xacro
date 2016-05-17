@@ -61,7 +61,7 @@
       <child link="arm_${arm}_link_${link_name}"/>
     </joint>
 
-    <!-- <xacro:call macro="servo" arm="${arm}" link_name="${link_name}" /> -->
+    <xacro:call macro="servo" arm="${arm}" link_name="${link_name}" />
   </xacro:macro>
 
   <xacro:macro name="arm" params="arm_id">

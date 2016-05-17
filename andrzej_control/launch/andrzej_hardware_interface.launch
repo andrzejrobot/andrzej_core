@@ -1,6 +1,15 @@
 <launch>
   <group ns="andrzej">
 
+    <arg name="arm1" default="true" />
+    <param name="enableArm1" value="$(arg arm1)"/>
+
+    <arg name="arm2" default="true" />
+    <param name="enableArm2" value="$(arg arm2)"/>
+
+    <arg name="head" default="true" />
+    <param name="enableHead" value="$(arg head)"/>
+
     <param name="robot_description"
            command="$(find xacro)/xacro.py --inorder $(find andrzej_description)/urdf/andrzej.xacro"/>
 
@@ -14,10 +23,9 @@
                                                 joint_state_controller
                                                 "/>
 
-    <group unless="$(arg arm1)">
+    <group if="$(arg arm1)">
       <node name="andrzej_arm1_controller_spawner" pkg="controller_manager" type="controller_manager"
             respawn="false" output="screen" args="spawn
-                                                  joint_state_controller
                                                   arm_1_joint_1_position_controller
                                                   arm_1_joint_2_position_controller
                                                   arm_1_joint_3_position_controller
@@ -26,7 +34,7 @@
                                                   "/>
     </group>
 
-    <group unless="$(arg arm2)">
+    <group if="$(arg arm2)">
     <node name="andrzej_arm2_controller_spawner" pkg="controller_manager" type="controller_manager"
           respawn="false" output="screen" args="spawn
                                                 arm_2_joint_1_position_controller
@@ -37,7 +45,7 @@
                                                 "/>
     </group>
 
-    <group unless="$(arg head)">
+    <group if="$(arg head)">
     <node name="andrzej_head_controller_spawner" pkg="controller_manager" type="controller_manager"
           respawn="false" output="screen" args="spawn
                                                 head_pan_controller
@@ -46,6 +54,6 @@
     </group>
 
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
-W
+
   </group>
 </launch>

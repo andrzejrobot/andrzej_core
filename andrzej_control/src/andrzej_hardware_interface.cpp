@@ -1,13 +1,12 @@
 #include <functional>
 
 #include <ros/ros.h>
-#include <std_msgs/String.h>
 #include <controller_manager/controller_manager.h>
 
 #include "andrzej_control/andrzej_hardware_interface.h"
 
-auto arm1Enabled = true;
-auto arm2Enabled = true;
+auto arm1Enabled = false;
+auto arm2Enabled = false;
 auto headEnabled = true;
 
 AndrzejHardwareInterface::AndrzejHardwareInterface()
@@ -16,8 +15,8 @@ AndrzejHardwareInterface::AndrzejHardwareInterface()
     std::string robot_description;
     if ( !nh.getParam("robot_description", robot_description) )
         ROS_ERROR("Unable to load robot description");
-    else
-        ROS_INFO("%s", robot_description.c_str());
+    //else
+    //    ROS_INFO("%s", robot_description.c_str());
 
     urdf::Model model;
     if( !model.initString(robot_description) )
@@ -94,15 +93,9 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "andrzej_hardware_interface");
     ros::NodeHandle nh;
 
-    auto enabler = [](bool* state, bool& enable, bool& after) mutable {
-        *state = enable;
-        after = *state;
-        return true;
-    };
-
-    nh.advertiseService("enableArm1", std::bind(enabler, &arm1Enabled, _2, _3));
-    nh.advertiseService("enableArm2", std::bind(enabler, &arm2Enabled, _2, _3));
-    nh.advertiseService("enableHead", std::bind(enabler, &headEnabled, _2, _3));
+    nh.param("enableArm1", arm1Enabled, arm1Enabled);
+    nh.param("enableArm2", arm2Enabled, arm2Enabled);
+    nh.param("enableHead", headEnabled, headEnabled);
 
     ros::Rate loop_rate(10);
 
@@ -112,18 +105,11 @@ int main(int argc, char** argv)
     AndrzejHardwareInterface robot;
     controller_manager::ControllerManager cm(&robot, nh);
 
-    int cnt = 0;
-
     while (ros::ok())
     {
         robot.read();
         cm.update(robot.get_time(), robot.get_period());
         robot.write();
-        if(cnt++ == 10)
-        {
-            ROS_INFO("Period %lf", robot.get_period().toSec());
-            cnt = 0;
-        }
         loop_rate.sleep();
     }
 
