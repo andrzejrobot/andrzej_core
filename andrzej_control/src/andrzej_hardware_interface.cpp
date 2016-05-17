@@ -1,8 +1,14 @@
+#include <functional>
+
 #include <ros/ros.h>
 #include <std_msgs/String.h>
 #include <controller_manager/controller_manager.h>
 
 #include "andrzej_control/andrzej_hardware_interface.h"
+
+auto arm1Enabled = true;
+auto arm2Enabled = true;
+auto headEnabled = true;
 
 AndrzejHardwareInterface::AndrzejHardwareInterface()
 {
@@ -45,14 +51,18 @@ void AndrzejHardwareInterface::write()
 {
     jointLimInterface.enforceLimits(get_period());
 
-    for (auto &joint : arm_1)
-        joint.write();
+    if (arm1Enabled)
+        for (auto &joint : arm_1)
+            joint.write();
 
-    for (auto &joint : arm_2)
-        joint.write();
+    if (arm2Enabled)
+        for (auto &joint : arm_2)
+            joint.write();
 
-    headPan.write();
-    headTilt.write();
+    if (headEnabled) {
+        headPan.write();
+        headTilt.write();
+    }
 }
 
 void AndrzejHardwareInterface::read()
@@ -83,6 +93,16 @@ int main(int argc, char** argv)
 {
     ros::init(argc, argv, "andrzej_hardware_interface");
     ros::NodeHandle nh;
+
+    auto enabler = [](bool* state, bool& enable, bool& after) mutable {
+        *state = enable;
+        after = *state;
+        return true;
+    };
+
+    nh.advertiseService("enableArm1", std::bind(enabler, &arm1Enabled, _2, _3));
+    nh.advertiseService("enableArm2", std::bind(enabler, &arm2Enabled, _2, _3));
+    nh.advertiseService("enableHead", std::bind(enabler, &headEnabled, _2, _3));
 
     ros::Rate loop_rate(10);
 
