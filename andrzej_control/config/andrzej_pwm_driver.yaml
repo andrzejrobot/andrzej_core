@@ -23,7 +23,7 @@ arm_1_joint_5_servo:
   offset: 367
   direction: -1
 
-arm_1_gripper_servo:
+arm_1_gripper_joint_servo:
   channel: 6
   offset: 200
   direction: 1
@@ -54,7 +54,7 @@ arm_2_joint_5_servo:
   offset: 370
   direction: -1
 
-arm_2_gripper_servo:
+arm_2_gripper_joint_servo:
   channel: 12
   offset: 300
   direction: 1

@@ -35,6 +35,10 @@ AndrzejHardwareInterface::AndrzejHardwareInterface()
         arm_2[i] = HobbyServoHardwareInterface(ss.str(), pwmDriverPtr, model);
         arm_2[i].registerHandle(jointStateInterface, jointPosInterface, jointLimInterface);
     }
+    gripperLeft = HobbyServoHardwareInterface("arm_1_gripper_joint", pwmDriverPtr, model);
+    gripperLeft.registerHandle(jointStateInterface, jointPosInterface, jointLimInterface);
+    gripperRight = HobbyServoHardwareInterface("arm_2_gripper_joint", pwmDriverPtr, model);
+    gripperRight.registerHandle(jointStateInterface, jointPosInterface, jointLimInterface);
 
     headPan = HobbyServoHardwareInterface("head_pan_joint", pwmDriverPtr, model);
     headPan.registerHandle(jointStateInterface, jointPosInterface, jointLimInterface);
@@ -50,13 +54,17 @@ void AndrzejHardwareInterface::write()
 {
     jointLimInterface.enforceLimits(get_period());
 
-    if (arm1Enabled)
-        for (auto &joint : arm_1)
+    if (arm1Enabled) {
+        for (auto& joint : arm_1)
             joint.write();
+        gripperLeft.write();
+    }
 
-    if (arm2Enabled)
-        for (auto &joint : arm_2)
+    if (arm2Enabled) {
+        for (auto& joint : arm_2)
             joint.write();
+        gripperRight.write();
+    }
 
     if (headEnabled) {
         headPan.write();
@@ -66,11 +74,15 @@ void AndrzejHardwareInterface::write()
 
 void AndrzejHardwareInterface::read()
 {
-    for (auto &joint : arm_1)
+    for (auto &joint : arm_1) {
         joint.read();
+        gripperLeft.read();
+    }
 
-    for (auto &joint : arm_2)
+    for (auto &joint : arm_2) {
         joint.read();
+        gripperRight.read();
+    }
 
     headPan.read();
     headTilt.read();

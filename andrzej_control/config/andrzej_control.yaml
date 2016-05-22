@@ -25,12 +25,12 @@ arm_2_controller:
 arm_1_gripper_controller:
   type: position_controllers/GripperActionController
   default: true
-  joint: arm_1_finger_left_joint
+  joint: arm_1_gripper_joint
 
 arm_2_gripper_controller:
   type: position_controllers/GripperActionController
   default: true
-  joint: arm_2_finger_left_joint
+  joint: arm_2_gripper_joint
 
 head_controller:
   type: position_controllers/JointTrajectoryController
@@ -61,7 +61,7 @@ arm_1_joint_5_position_controller:
 
 arm_1_gripper_position_controller:
   type: position_controllers/JointPositionController
-  joint: arm_1_finger_left_joint
+  joint: arm_1_gripper_joint
 
 arm_2_joint_1_position_controller:
   type: position_controllers/JointPositionController
@@ -85,7 +85,7 @@ arm_2_joint_5_position_controller:
 
 arm_2_gripper_position_controller:
   type: position_controllers/JointPositionController
-  joint: arm_2_finger_left_joint
+  joint: arm_2_gripper_joint
 
 head_pan_controller:
   type: position_controllers/JointPositionController

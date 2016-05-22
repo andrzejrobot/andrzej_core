@@ -27,6 +27,7 @@ private:
     ros::Time curr_update_time, prev_update_time;
 
     std::array<HobbyServoHardwareInterface, JOINTS_PER_ARM> arm_1, arm_2;
+    HobbyServoHardwareInterface gripperLeft, gripperRight;
     HobbyServoHardwareInterface headPan, headTilt;
 
     PCA9685Ptr pwmDriverPtr;
