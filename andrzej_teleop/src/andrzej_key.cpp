@@ -1,10 +1,8 @@
 #include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
 #include <std_msgs/Float64.h>
-#include <stdio.h>
-#include <boost/thread/mutex.hpp>
 #include <boost/thread/thread.hpp>
-#include "ArmManager.h"
+#include "JointManager.h"
 
 typedef std::map<char, std::pair<float,float>> KeyBindings;
 KeyBindings moveBindings = {
@@ -35,7 +33,7 @@ public:
 private:
     ros::NodeHandle ph_, nh_;
 
-    ArmManager arm_mgr;
+    JointManager arm_mgr;
     ros::Publisher vel_pub_;
 };
 

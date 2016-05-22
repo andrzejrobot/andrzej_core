@@ -1,79 +1,77 @@
-#include "ArmManager.h"
+#include "JointManager.h"
 #include <controller_manager_msgs/SwitchController.h>
 
-ArmManager::ArmManager(ros::NodeHandle& ph):
-        active_arm(1)
+JointManager::JointManager(ros::NodeHandle& ph)
 {
     serviceSwitchCtrl = ph.serviceClient<controller_manager_msgs::SwitchController>(
             "controller_manager/switch_controller"
     );
 
-    for(int joint = 1; joint < 6; joint++)
-    {
+    for(int joint = 1; joint < 6; joint++) {
         std::stringstream ss;
         ss << "arm_" << 1 << "_joint_" << joint;
-        left_arm.push_back(Joint(ph, ss.str()));
+        arm1.push_back(Joint(ph, ss.str()));
         ss.str(std::string());
         ss << "arm_" << 2 << "_joint_" << joint;
-        right_arm.push_back(Joint(ph, ss.str()));
+        arm2.push_back(Joint(ph, ss.str()));
     }
-    left_arm.push_back(Joint(ph, "arm_1_gripper_joint"));
-    right_arm.push_back(Joint(ph, "arm_2_gripper_joint"));
+    arm1.push_back(Joint(ph, "arm_1_gripper_joint"));
+    arm2.push_back(Joint(ph, "arm_2_gripper_joint"));
+
+    head.push_back(Joint(ph, "head_pan_joint"));
+    head.push_back(Joint(ph, "head_tilt_joint"));
 }
 
-void ArmManager::increment(int joint)
+void JointManager::increment()
 {
-    if(active_arm == -1)
-        return left_arm[joint].increment();
-    else
-        return right_arm[joint].increment();
+    return getActiveJointSet()[activeJoint].increment();
 }
 
-void ArmManager::decrement(int joint)
+void JointManager::decrement()
 {
-    if(active_arm == -1)
-        return left_arm[joint].decrement();
-    else
-        return right_arm[joint].decrement();
+    return getActiveJointSet()[activeJoint].decrement();
 }
 
-void ArmManager::publish()
+void JointManager::publish()
 {
-    for (auto& joint : left_arm)
-        joint.publish();
-
-    for (auto& joint : right_arm)
-        joint.publish();
+    getActiveJointSet()[activeJoint].publish();
 }
 
-void ArmManager::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
+void JointManager::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 {
     if(joy->axes[4] != 0)
-        active_arm = static_cast<int>(joy->axes[4]);
+        activeJointSet = (joy->axes[4] < 0) ? JointSet::ARM1 : JointSet::ARM2;
 
     if(joy->axes[5] == 1)
         for(auto it = jointJoyBindings.begin(); it != jointJoyBindings.end(); it++)
-            if(joy->buttons[it->first])
-                increment(it->second);
+            if (joy->buttons[it->first]) {
+                activeJoint = it->second;
+                increment();
+            }
 
     if(joy->axes[5] == -1)
         for(auto it = jointJoyBindings.begin(); it != jointJoyBindings.end(); it++)
-            if(joy->buttons[it->first])
-                decrement(it->second);
+            if (joy->buttons[it->first]) {
+                activeJoint = it->second;
+                decrement();
+            }
 }
 
-bool ArmManager::handleKey(char key) {
-    if (key == keyActiveArm)
-        active_arm = -1*active_arm;
+bool JointManager::handleKey(char key) {
+    if (keyBindingsActiveJointSet.count(key))
+        activeJointSet = keyBindingsActiveJointSet.at(key);
     else if (key == keySwitchController)
         switchController();
-    else if (jointKeyBindings.count(key) > 0)
-        active_joint = jointKeyBindings.at(key);
-    else if (jointMoveKeyBindings.count(key) > 0) {
-        if (jointMoveKeyBindings[key].first > 0)
-            increment(active_joint);
-        else if (jointMoveKeyBindings[key].first < 0)
-            decrement(active_joint);
+    else if (keyBindingsJointSelect.count(key) > 0) {
+        auto selectedJoint = keyBindingsJointSelect.at(key);
+        if (selectedJoint < getActiveJointSet().size())
+            activeJoint = selectedJoint;
+    }
+    else if (keyBindingsJointMove.count(key) > 0) {
+        if (keyBindingsJointMove[key].first > 0)
+            increment();
+        else if (keyBindingsJointMove[key].first < 0)
+            decrement();
     }
     else
         return false;
@@ -81,7 +79,7 @@ bool ArmManager::handleKey(char key) {
     return true;
 }
 
-bool ArmManager::switchController() {
+bool JointManager::switchController() {
     controller_manager_msgs::SwitchControllerRequest req;
     req.stop_controllers = {
             "arm_1_joint_1_position_controller",
@@ -131,4 +129,13 @@ bool ArmManager::switchController() {
     ROS_INFO_STREAM( "Service call " << serviceSwitchCtrl.getService() << ss.str() );
 
     return ret;
+}
+
+Joints& JointManager::getActiveJointSet() {
+    if(activeJointSet == JointSet::ARM1)
+        return arm1;
+    else if(activeJointSet == JointSet::ARM2)
+        return arm2;
+    else
+        return head;
 }

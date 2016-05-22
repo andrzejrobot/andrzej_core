@@ -24,20 +24,20 @@ include_directories(
     ${catkin_INCLUDE_DIRS}
 )
 
-add_library(andrzej_arm_manager
-    src/ArmManager.cpp
+add_library(andrzej_joint_manager
+    src/JointManager.cpp
     src/Joint.cpp src/Joint.h)
 
 add_executable(andrzej_joy src/andrzej_joy.cpp)
 
 target_link_libraries(andrzej_joy
-    andrzej_arm_manager
+    andrzej_joint_manager
     ${catkin_LIBRARIES}
     )
 
 add_executable(andrzej_key src/andrzej_key.cpp)
 
 target_link_libraries(andrzej_key
-    andrzej_arm_manager
+    andrzej_joint_manager
     ${catkin_LIBRARIES}
     )

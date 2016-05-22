@@ -4,7 +4,7 @@
 #include <sensor_msgs/Joy.h>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/thread.hpp>
-#include "ArmManager.h"
+#include "JointManager.h"
 
 class AndrzejTeleopKey
 {
@@ -19,9 +19,8 @@ private:
 
     int linear_x_, linear_y_, angular_, deadman_axis_;
     double l_scale_x_, l_scale_y_, a_scale_;
-    ArmManager arm_mgr;
+    JointManager arm_mgr;
     ros::Publisher vel_pub_;
-    std::vector<Arm> joint_pub_;
     ros::Subscriber joy_sub_;
 
     geometry_msgs::Twist last_published_;
@@ -68,7 +67,7 @@ void AndrzejTeleopKey::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
     vel.linear.x = l_scale_x_*joy->axes[linear_x_];
     vel.linear.y = l_scale_y_*joy->axes[linear_y_];
     last_published_ = vel;
-    deadman_pressed_ = joy->buttons[deadman_axis_];
+    deadman_pressed_ = static_cast<bool>(joy->buttons[deadman_axis_]);
 
     arm_mgr.joyCallback(joy);
 }
