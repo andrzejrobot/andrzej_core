@@ -46,12 +46,12 @@ arm_2_joint_3_servo:
 
 arm_2_joint_4_servo:
   channel: 10
-  offset: 300
+  offset: 390
   direction: 1
 
 arm_2_joint_5_servo:
   channel: 11
-  offset: 400
+  offset: 370
   direction: -1
 
 arm_2_gripper_servo:

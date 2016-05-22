@@ -36,12 +36,20 @@ include_directories(
 add_library(pca9685 src/PCA9685.cpp src/I2C.cpp)
 target_link_libraries(pca9685 ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
+add_executable(servo_test src/servo_test.cpp)
+target_link_libraries(servo_test
+    pca9685
+    ${catkin_LIBRARIES}
+    ${Boost_LIBRARIES}
+    )
+
 add_executable(andrzej_hardware_interface src/andrzej_hardware_interface.cpp src/joint_hardware_interface.cpp)
 target_link_libraries(andrzej_hardware_interface
     pca9685
     ${catkin_LIBRARIES}
     ${Boost_LIBRARIES}
     )
+
 add_dependencies(andrzej_hardware_interface ${catkin_EXPORTED_TARGETS})
 
 #############

@@ -32,7 +32,7 @@ private:
     static constexpr auto MIN_PWM = 180;
 
     std::string name = "";
-    double cmd, pos, vel, eff;
+    double cmd = 0, pos = 0, vel = 0, eff = 0;
 
     PCA9685Ptr driverPtr;
     int channel = 0;
