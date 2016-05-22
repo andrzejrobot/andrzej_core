@@ -24,14 +24,15 @@
                                                 "/>
 
     <group if="$(arg arm1)">
-      <node name="andrzej_arm1_controller_spawner" pkg="controller_manager" type="controller_manager"
-            respawn="false" output="screen" args="spawn
-                                                  arm_1_joint_1_position_controller
-                                                  arm_1_joint_2_position_controller
-                                                  arm_1_joint_3_position_controller
-                                                  arm_1_joint_4_position_controller
-                                                  arm_1_joint_5_position_controller
-                                                  "/>
+    <node name="andrzej_arm1_controller_spawner" pkg="controller_manager" type="controller_manager"
+          respawn="false" output="screen" args="spawn
+                                                arm_1_joint_1_position_controller
+                                                arm_1_joint_2_position_controller
+                                                arm_1_joint_3_position_controller
+                                                arm_1_joint_4_position_controller
+                                                arm_1_joint_5_position_controller
+                                                arm_1_gripper_joint_position_controller
+                                                "/>
     </group>
 
     <group if="$(arg arm2)">
@@ -42,6 +43,7 @@
                                                 arm_2_joint_3_position_controller
                                                 arm_2_joint_4_position_controller
                                                 arm_2_joint_5_position_controller
+                                                arm_2_gripper_joint_position_controller
                                                 "/>
     </group>
 
