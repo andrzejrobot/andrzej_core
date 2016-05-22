@@ -17,6 +17,8 @@ ArmManager::ArmManager(ros::NodeHandle& ph):
         ss << "arm_" << 2 << "_joint_" << joint;
         right_arm.push_back(Joint(ph, ss.str()));
     }
+    left_arm.push_back(Joint(ph, "arm_1_gripper_joint"));
+    right_arm.push_back(Joint(ph, "arm_2_gripper_joint"));
 }
 
 void ArmManager::increment(int joint)
@@ -37,11 +39,11 @@ void ArmManager::decrement(int joint)
 
 void ArmManager::publish()
 {
-    for(int joint = 0; joint < 5; joint++)
-    {
-        left_arm[joint].publish();
-        right_arm[joint].publish();
-    }
+    for (auto& joint : left_arm)
+        joint.publish();
+
+    for (auto& joint : right_arm)
+        joint.publish();
 }
 
 void ArmManager::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)

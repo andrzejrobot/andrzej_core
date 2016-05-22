@@ -34,7 +34,7 @@ private:
         {0, 0}, {1, 1}, {2, 2}, {3, 3}, {5, 4},
     };
     const std::map<char, int> jointKeyBindings = {
-            {'1', 0}, {'2', 1}, {'3', 2}, {'4', 3}, {'5', 4},
+            {'1', 0}, {'2', 1}, {'3', 2}, {'4', 3}, {'5', 4}, {'6', 5}
     };
     std::map<char, std::pair<int,int>> jointMoveKeyBindings = {
         {'a', {-1, 0}}, {'s', {0, -1}}, {'d', {0, 1}}, {'f', {1, 0}}
