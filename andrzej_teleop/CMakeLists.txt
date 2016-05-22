@@ -26,7 +26,7 @@ include_directories(
 
 add_library(andrzej_arm_manager
     src/ArmManager.cpp
-    )
+    src/Joint.cpp src/Joint.h)
 
 add_executable(andrzej_joy src/andrzej_joy.cpp)
 

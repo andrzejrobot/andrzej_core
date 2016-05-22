@@ -1,34 +1,6 @@
 #include "ArmManager.h"
 #include <controller_manager_msgs/SwitchController.h>
 
-Joint::Joint(ros::NodeHandle& ph, int arm, int joint):
-        goal(0)
-{
-    std::stringstream joint_topic;
-    joint_topic << "arm_" << arm << "_joint_" << joint << "_position_controller/command";
-    pos_pub = ph.advertise<std_msgs::Float64>(joint_topic.str(), 1, true);
-}
-
-int Joint::increment()
-{
-    goal += M_PI/180;
-    return goal;
-}
-
-int Joint::decrement()
-{
-    goal -= M_PI/180;
-    return goal;
-}
-
-void Joint::publish()
-{
-    std_msgs::Float64 msg;
-    msg.data = goal;
-    pos_pub.publish(msg);
-}
-
-
 ArmManager::ArmManager(ros::NodeHandle& ph):
         active_arm(1)
 {
@@ -38,33 +10,29 @@ ArmManager::ArmManager(ros::NodeHandle& ph):
 
     for(int joint = 1; joint < 6; joint++)
     {
-        left_arm.push_back(Joint(ph, 1, joint));
-        right_arm.push_back(Joint(ph, 2, joint));
+        std::stringstream ss;
+        ss << "arm_" << 1 << "_joint_" << joint;
+        left_arm.push_back(Joint(ph, ss.str()));
+        ss.str(std::string());
+        ss << "arm_" << 2 << "_joint_" << joint;
+        right_arm.push_back(Joint(ph, ss.str()));
     }
 }
 
-int ArmManager::increment(int joint)
+void ArmManager::increment(int joint)
 {
     if(active_arm == -1)
-    {
         return left_arm[joint].increment();
-    }
     else
-    {
         return right_arm[joint].increment();
-    }
 }
 
-int ArmManager::decrement(int joint)
+void ArmManager::decrement(int joint)
 {
     if(active_arm == -1)
-    {
         return left_arm[joint].decrement();
-    }
     else
-    {
         return right_arm[joint].decrement();
-    }
 }
 
 void ArmManager::publish()
@@ -79,31 +47,17 @@ void ArmManager::publish()
 void ArmManager::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 {
     if(joy->axes[4] != 0)
-    {
-        active_arm = joy->axes[4];
-    }
+        active_arm = static_cast<int>(joy->axes[4]);
 
     if(joy->axes[5] == 1)
-    {
         for(auto it = jointJoyBindings.begin(); it != jointJoyBindings.end(); it++)
-        {
             if(joy->buttons[it->first])
-            {
                 increment(it->second);
-            }
-        }
-    }
 
     if(joy->axes[5] == -1)
-    {
         for(auto it = jointJoyBindings.begin(); it != jointJoyBindings.end(); it++)
-        {
             if(joy->buttons[it->first])
-            {
                 decrement(it->second);
-            }
-        }
-    }
 }
 
 bool ArmManager::handleKey(char key) {

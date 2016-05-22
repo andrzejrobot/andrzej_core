@@ -2,23 +2,9 @@
 #define ANDRZEJ_TELEOP_ARMMANAGER_H
 
 #include <ros/ros.h>
-#include <std_msgs/Float64.h>
 #include <sensor_msgs/Joy.h>
 
-class Joint
-{
-public:
-    Joint(ros::NodeHandle& ph, int arm, int joint);
-
-    int increment();
-    int decrement();
-    void publish();
-
-private:
-    float goal;
-
-    ros::Publisher pos_pub;
-};
+#include "Joint.h"
 
 typedef std::vector<Joint> Arm;
 
@@ -26,8 +12,8 @@ class ArmManager {
 public:
     ArmManager(ros::NodeHandle& ph);
 
-    int increment(int joint);
-    int decrement(int joint);
+    void increment(int joint);
+    void decrement(int joint);
     void publish();
 
     void joyCallback(const sensor_msgs::Joy::ConstPtr& joy);
