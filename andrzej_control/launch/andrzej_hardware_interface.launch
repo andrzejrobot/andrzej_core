@@ -50,8 +50,8 @@
     <group if="$(arg head)">
     <node name="andrzej_head_controller_spawner" pkg="controller_manager" type="controller_manager"
           respawn="false" output="screen" args="spawn
-                                                head_pan_controller
-                                                head_tilt_controller
+                                                head_pan_joint_position_controller
+                                                head_tilt_joint_position_controller
                                                 "/>
     </group>
 
