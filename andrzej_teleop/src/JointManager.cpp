@@ -24,17 +24,17 @@ JointManager::JointManager(ros::NodeHandle& ph)
 
 void JointManager::increment()
 {
-    return getActiveJointSet()[activeJoint].increment();
+    return getActiveJoint().increment();
 }
 
 void JointManager::decrement()
 {
-    return getActiveJointSet()[activeJoint].decrement();
+    return getActiveJoint().decrement();
 }
 
 void JointManager::publish()
 {
-    getActiveJointSet()[activeJoint].publish();
+    getActiveJoint().publish();
 }
 
 void JointManager::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
@@ -62,11 +62,8 @@ bool JointManager::handleKey(char key) {
         activeJointSet = keyBindingsActiveJointSet.at(key);
     else if (key == keySwitchController)
         switchController();
-    else if (keyBindingsJointSelect.count(key) > 0) {
-        auto selectedJoint = keyBindingsJointSelect.at(key);
-        if (selectedJoint < getActiveJointSet().size())
-            activeJoint = selectedJoint;
-    }
+    else if (keyBindingsJointSelect.count(key) > 0)
+        activeJoint = keyBindingsJointSelect.at(key);
     else if (keyBindingsJointMove.count(key) > 0) {
         if (keyBindingsJointMove[key].first > 0)
             increment();
@@ -138,4 +135,10 @@ Joints& JointManager::getActiveJointSet() {
         return arm2;
     else
         return head;
+}
+
+Joint& JointManager::getActiveJoint() {
+    if (activeJoint >= getActiveJointSet().size())
+        activeJoint = getActiveJointSet().size() - 1;
+    return getActiveJointSet().at(activeJoint);
 }

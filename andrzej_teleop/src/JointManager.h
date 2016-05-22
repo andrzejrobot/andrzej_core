@@ -54,6 +54,7 @@ private:
     Joints arm1, arm2, head;
 
     Joints& getActiveJointSet();
+    Joint& getActiveJoint();
 };
 
 
