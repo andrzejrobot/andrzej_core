@@ -13,47 +13,30 @@
     <param name="robot_description"
            command="$(find xacro)/xacro.py --inorder $(find andrzej_description)/urdf/andrzej.xacro"/>
 
+    <node name="andrzej_mecanum" pkg="andrzej_control" type="mecanum.py" output="screen"/>
     <node name="andrzej_hw" pkg="andrzej_control" type="andrzej_hardware_interface" output="screen"/>
 
     <rosparam file="$(find andrzej_control)/config/andrzej_control.yaml" command="load"/>
     <rosparam file="$(find andrzej_control)/config/andrzej_pwm_driver.yaml" command="load"/>
 
-    <node name="andrzej_state_controller_spawner" pkg="controller_manager" type="controller_manager"
+    <node name="andrzej_controller_spawner" pkg="controller_manager" type="controller_manager"
           respawn="false" output="screen" args="spawn
                                                 joint_state_controller
-                                                "/>
-
-    <group if="$(arg arm1)">
-    <node name="andrzej_arm1_controller_spawner" pkg="controller_manager" type="controller_manager"
-          respawn="false" output="screen" args="spawn
                                                 arm_1_joint_1_position_controller
                                                 arm_1_joint_2_position_controller
                                                 arm_1_joint_3_position_controller
                                                 arm_1_joint_4_position_controller
                                                 arm_1_joint_5_position_controller
                                                 arm_1_gripper_joint_position_controller
-                                                "/>
-    </group>
-
-    <group if="$(arg arm2)">
-    <node name="andrzej_arm2_controller_spawner" pkg="controller_manager" type="controller_manager"
-          respawn="false" output="screen" args="spawn
                                                 arm_2_joint_1_position_controller
                                                 arm_2_joint_2_position_controller
                                                 arm_2_joint_3_position_controller
                                                 arm_2_joint_4_position_controller
                                                 arm_2_joint_5_position_controller
                                                 arm_2_gripper_joint_position_controller
-                                                "/>
-    </group>
-
-    <group if="$(arg head)">
-    <node name="andrzej_head_controller_spawner" pkg="controller_manager" type="controller_manager"
-          respawn="false" output="screen" args="spawn
                                                 head_pan_joint_position_controller
                                                 head_tilt_joint_position_controller
                                                 "/>
-    </group>
 
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 

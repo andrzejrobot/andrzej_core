@@ -2,38 +2,41 @@
 
 import math
 import rospy
+import wiringpi
+
 from geometry_msgs.msg import Twist
 
-GPIO = webiopi.GPIO
+GPIO_OUT = 1
 
+PWM1 = 25
+PWM2 = 11
+PWM3 = 7
+PWM4 = 8
 
-PWM1 = 7
-PWM2 = 8
-PWM3 = 25
-PWM4 = 11
-
-DIR1 = 27
-DIR2 = 22
-DIR3 = 23
-DIR4 = 24
+DIR1 = 23
+DIR2 = 24
+DIR3 = 27
+DIR4 = 22
 
 PWM_PINS = [PWM1, PWM2, PWM3, PWM4]
 DIR_PINS = [DIR1, DIR2, DIR3, DIR4]
 
+PWM_RANGE = 100
 
 class Wheel:
     def __init__(self, pwm_pin, dir_pin):
         self._pwm_pin = pwm_pin
         self._dir_pin = dir_pin
-        GPIO.setFunction(self._dir_pin, GPIO.OUT)
-        GPIO.setFunction(self._pwm_pin, GPIO.PWM)
-        GPIO.pulseRatio(self._pwm_pin, 0)
+        wiringpi.pinMode(self._dir_pin, wiringpi.OUTPUT)
+        wiringpi.pinMode(self._pwm_pin, wiringpi.OUTPUT)
+        wiringpi.softPwmCreate(self._pwm_pin, 0, PWM_RANGE)
+        wiringpi.softPwmWrite(self._pwm_pin, 0)
 
-    def setPWM(self, pwm)
-        GPIO.pulseRatio(self._pwm_pin, pwm)
+    def setPWM(self, pwm):
+        wiringpi.softPwmWrite(self._pwm_pin, int(PWM_RANGE*pwm))
 
-    def setDir(self, direction)
-        GPIO.digitalWrite(self._dir_pin, direction)
+    def setDir(self, direction):
+        wiringpi.digitalWrite(self._dir_pin, int(direction))
 
 
 class MecanumChassis:
@@ -54,8 +57,8 @@ class MecanumChassis:
         v = math.sqrt(y*y + x*x)
 
         speeds = [ v * math.sin(a + math.pi/4) + w,
-                   v * math.cos(a + math.pi/4) + w,
                    v * math.cos(a + math.pi/4) - w,
+                   v * math.cos(a + math.pi/4) + w,
                    v * math.sin(a + math.pi/4) - w ]
 
         dirs = [s > 0 for s in speeds]
@@ -68,7 +71,6 @@ class MecanumChassis:
             wheel.setPWM(0)
             wheel.setDir(0)
 
-
 chassis = MecanumChassis(PWM_PINS, DIR_PINS)
 
 def mecanum_node():
@@ -79,6 +81,7 @@ def mecanum_node():
 
 if __name__ == '__main__':
     try:
+        wiringpi.wiringPiSetupGpio()
         mecanum_node()
     except rospy.ROSInterruptException:
         rospy.loginfo("Stopping mecanum node...")
