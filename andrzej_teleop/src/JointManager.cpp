@@ -41,19 +41,14 @@ void JointManager::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 {
     if(joy->axes[4] != 0)
         activeJointSet = (joy->axes[4] < 0) ? JointSet::ARM1 : JointSet::ARM2;
+    else if(joy->buttons[8])
+        activeJointSet = JointSet::HEAD;
 
-    if(joy->axes[5] == 1)
+    if(joy->axes[5] != 0)
         for(auto it = jointJoyBindings.begin(); it != jointJoyBindings.end(); it++)
             if (joy->buttons[it->first]) {
                 activeJoint = it->second;
-                increment();
-            }
-
-    if(joy->axes[5] == -1)
-        for(auto it = jointJoyBindings.begin(); it != jointJoyBindings.end(); it++)
-            if (joy->buttons[it->first]) {
-                activeJoint = it->second;
-                decrement();
+                (joy->axes[5] > 0) ? increment() : decrement();
             }
 }
 

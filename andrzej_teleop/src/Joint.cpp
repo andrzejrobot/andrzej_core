@@ -6,6 +6,7 @@
 
 Joint::Joint(ros::NodeHandle& ph, std::string name)
 {
+    // TODO: init goal from joint state
     auto joint_topic = name + "_position_controller/command";
     pos_pub = ph.advertise<std_msgs::Float64>(joint_topic, 1, true);
 }

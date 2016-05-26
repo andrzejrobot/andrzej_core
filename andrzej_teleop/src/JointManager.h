@@ -30,10 +30,10 @@ private:
     int activeJoint = 0;
 
     const std::map<int, int> jointJoyBindings = {
-        {0, 0}, {1, 1}, {2, 2}, {3, 3}, {5, 4},
+        {0, 0}, {1, 1}, {2, 2}, {3, 3}, {5, 4}, {6, 5}
     };
     const std::map<char, int> keyBindingsJointSelect = {
-            {'1', 0}, {'2', 1}, {'3', 2}, {'4', 3}, {'5', 4}, {'6', 5}
+        {'1', 0}, {'2', 1}, {'3', 2}, {'4', 3}, {'5', 4}, {'6', 5}
     };
     std::map<char, std::pair<int,int>> keyBindingsJointMove = {
         {'a', {-1, 0}}, {'s', {1, 0}}, {'t', {0, -1}}, {'b', {0, 1}}

@@ -1,13 +1,17 @@
 <launch>
+  <!-- Joy Mapping:
+  Axes = [ LStickLR, LStickUD, RStickLR, RStickUD, DPadLR, DPadUD ]
+  Buttons = [ Square, Cross, Circle, Triangle, L, R,
+              LL, RR, Select, Start, LStick, RStick ] -->
+
   <node pkg="andrzej_teleop" type="andrzej_joy" name="andrzej">
-    <param name="scale_angular" value="1.5"/>
-    <param name="scale_linear_x" value="0.5"/>
+    <param name="scale_angular" value="0.5"/>
+    <param name="scale_linear_x" value="0.3"/>
     <param name="scale_linear_y" value="0.3"/>
     <param name="axis_deadman" value="4"/>
     <param name="axis_linear_x" value="1"/>
     <param name="axis_linear_y" value="0"/>
     <param name="axis_angular" value="3"/>
-    <!-- <remap from="andrzej_teleop_joystick/cmd_vel" to="andrzej/cmd_vel"/> -->
   </node>
 
   <node pkg="joy" type="joy_node" name="joystick"/>

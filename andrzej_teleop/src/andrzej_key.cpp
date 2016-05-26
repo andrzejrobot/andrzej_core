@@ -97,7 +97,7 @@ void AndrzejTeleopKey::run() {
         target_speed = speed * x;
         target_turn = turn * th;
 
-        std::cout << target_speed;
+        std::cout << target_speed << std::endl;
         if (target_speed > control_speed)
             control_speed = std::min(target_speed, control_speed + 0.02f);
         else if (target_speed < control_speed)
@@ -112,7 +112,7 @@ void AndrzejTeleopKey::run() {
         else
             control_turn = target_turn;
 
-        std::cout << control_speed;
+        std::cout << control_speed << std::endl;
         geometry_msgs::Twist twist;
         twist.linear.x = control_speed;
         twist.linear.y = 0;
