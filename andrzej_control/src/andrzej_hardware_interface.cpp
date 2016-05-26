@@ -5,10 +5,6 @@
 
 #include "andrzej_control/andrzej_hardware_interface.h"
 
-auto arm1Enabled = false;
-auto arm2Enabled = false;
-auto headEnabled = true;
-
 AndrzejHardwareInterface::AndrzejHardwareInterface()
 {
     ros::NodeHandle nh;
@@ -42,47 +38,44 @@ AndrzejHardwareInterface::AndrzejHardwareInterface()
 
     headPan = HobbyServoHardwareInterface("head_pan_joint", pwmDriverPtr, model);
     headPan.registerHandle(jointStateInterface, jointPosInterface, jointLimInterface);
+    headPan.enable();
     headTilt = HobbyServoHardwareInterface("head_tilt_joint", pwmDriverPtr, model);
     headTilt.registerHandle(jointStateInterface, jointPosInterface, jointLimInterface);
+    headTilt.enable();
 
     registerInterface(&jointStateInterface);
     registerInterface(&jointPosInterface);
     registerInterface(&jointLimInterface);
+
+    armEnabler = nh.advertiseService("andrzej_hw/enableArms", &AndrzejHardwareInterface::enableArms, this);
+    armDisabler = nh.advertiseService("andrzej_hw/disableArms", &AndrzejHardwareInterface::disableArms, this);
 }
 
 void AndrzejHardwareInterface::write()
 {
     jointLimInterface.enforceLimits(get_period());
 
-    if (arm1Enabled) {
-        for (auto& joint : arm_1)
-            joint.write();
-        gripperLeft.write();
-    }
+    for (auto& joint : arm_1)
+        joint.write();
+    gripperLeft.write();
 
-    if (arm2Enabled) {
-        for (auto& joint : arm_2)
-            joint.write();
-        gripperRight.write();
-    }
+    for (auto& joint : arm_2)
+        joint.write();
+    gripperRight.write();
 
-    if (headEnabled) {
-        headPan.write();
-        headTilt.write();
-    }
+    headPan.write();
+    headTilt.write();
 }
 
 void AndrzejHardwareInterface::read()
 {
-    for (auto &joint : arm_1) {
+    for (auto &joint : arm_1)
         joint.read();
-        gripperLeft.read();
-    }
+    gripperLeft.read();
 
-    for (auto &joint : arm_2) {
+    for (auto &joint : arm_2)
         joint.read();
-        gripperRight.read();
-    }
+    gripperRight.read();
 
     headPan.read();
     headTilt.read();
@@ -100,14 +93,31 @@ ros::Duration AndrzejHardwareInterface::get_period()
     return curr_update_time - prev_update_time;
 }
 
+
+bool AndrzejHardwareInterface::enableArms(std_srvs::Empty::Request& request, std_srvs::Empty::Response& response) {
+    for(auto& joint : arm_1)
+        joint.enable();
+    gripperLeft.enable();
+    for(auto& joint : arm_2)
+        joint.enable();
+    gripperRight.enable();
+    return true;
+}
+
+bool AndrzejHardwareInterface::disableArms(std_srvs::Empty::Request& request, std_srvs::Empty::Response& response) {
+    for(auto& joint : arm_1)
+        joint.disable();
+    gripperLeft.disable();
+    for(auto& joint : arm_2)
+        joint.disable();
+    gripperRight.disable();
+    return true;
+}
+
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "andrzej_hardware_interface");
     ros::NodeHandle nh;
-
-    nh.param("enableArm1", arm1Enabled, arm1Enabled);
-    nh.param("enableArm2", arm2Enabled, arm2Enabled);
-    nh.param("enableHead", headEnabled, headEnabled);
 
     ros::Rate loop_rate(10);
 

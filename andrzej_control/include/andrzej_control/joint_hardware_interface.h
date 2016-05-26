@@ -21,6 +21,9 @@ public:
     void write(void);
     void read(void);
 
+    void enable(void);
+    void disable(void);
+
     void registerHandle( hardware_interface::JointStateInterface& stateInterface,
                          hardware_interface::PositionJointInterface& posInterface,
                          joint_limits_interface::PositionJointSaturationInterface& limInterface);
@@ -33,6 +36,7 @@ private:
 
     std::string name = "";
     double cmd = 0, pos = 0, vel = 0, eff = 0;
+    bool enabled = false;
 
     PCA9685Ptr driverPtr;
     int channel = 0;

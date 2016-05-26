@@ -1,15 +1,5 @@
 <launch>
   <group ns="andrzej">
-
-    <arg name="arm1" default="true" />
-    <param name="enableArm1" value="$(arg arm1)"/>
-
-    <arg name="arm2" default="true" />
-    <param name="enableArm2" value="$(arg arm2)"/>
-
-    <arg name="head" default="true" />
-    <param name="enableHead" value="$(arg head)"/>
-
     <param name="robot_description"
            command="$(find xacro)/xacro.py --inorder $(find andrzej_description)/urdf/andrzej.xacro"/>
 
@@ -39,7 +29,6 @@
                                                 head_tilt_joint_position_controller
                                                 "/>
 
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
-
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>  
   </group>
 </launch>

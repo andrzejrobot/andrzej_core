@@ -61,14 +61,20 @@ void HobbyServoHardwareInterface::registerHandle(hardware_interface::JointStateI
 
 void HobbyServoHardwareInterface::write()
 {
-    double pwm = radToPwm(cmd);
-    driverPtr->setPWM( channel, static_cast<int>(pwm));
+    if(enabled) {
+        double pwm = radToPwm(cmd);
+        driverPtr->setPWM(channel, static_cast<int>(pwm));
+    } else
+        driverPtr->setPWM(channel, 0);
 }
 
 void HobbyServoHardwareInterface::read()
 {
-    int pwm = driverPtr->getPWM(channel);
-    pos = pwmToRad(pwm);
+    if(enabled) {
+        int pwm = driverPtr->getPWM(channel);
+        pos = pwmToRad(pwm);
+    } else
+        pos = cmd;
 }
 
 double HobbyServoHardwareInterface::pwmToRad(int pwm) const
@@ -79,4 +85,12 @@ double HobbyServoHardwareInterface::pwmToRad(int pwm) const
 int HobbyServoHardwareInterface::radToPwm(double rad) const
 {
     return dir*RAD_PER_PWM*rad + offset;
+}
+
+void HobbyServoHardwareInterface::enable(void) {
+    enabled = true;
+}
+
+void HobbyServoHardwareInterface::disable(void) {
+    enabled = false;
 }
