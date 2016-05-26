@@ -18,6 +18,7 @@
 
     <rosparam file="$(find andrzej_control)/config/andrzej_control.yaml" command="load"/>
     <rosparam file="$(find andrzej_control)/config/andrzej_pwm_driver.yaml" command="load"/>
+    <rosparam file="$(find andrzej_control)/config/andrzej_joint_positions.yaml" command="load"/>
 
     <node name="andrzej_controller_spawner" pkg="controller_manager" type="controller_manager"
           respawn="false" output="screen" args="spawn

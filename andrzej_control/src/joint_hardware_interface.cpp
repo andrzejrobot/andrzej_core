@@ -41,7 +41,8 @@ void HobbyServoHardwareInterface::initJointLimits(const urdf::Model& model)
 void HobbyServoHardwareInterface::initBasePosition(void)
 {
     ros::NodeHandle nh;
-    nh.getParam(name + "/base_position", channel);
+    if(nh.getParam(name + "_positions/start", cmd))
+        write();
 }
 
 void HobbyServoHardwareInterface::registerHandle(hardware_interface::JointStateInterface& stateInterface,

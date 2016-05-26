@@ -1,0 +1,56 @@
+arm_1_joint_1_positions:
+  base: 0
+  start: 0
+
+arm_1_joint_2_positions:
+  base: 0
+  start: deg(10)
+
+arm_1_joint_3_positions:
+  base: 0
+  start: deg(120)
+
+arm_1_joint_4_positions:
+  base: 0
+  start: 0
+
+arm_1_joint_5_positions:
+  base: 0
+  start: 0
+
+arm_1_gripper_joint_positions:
+  base: 0
+  start: 0
+
+
+arm_2_joint_1_positions:
+  base: 0
+  start: 0
+
+arm_2_joint_2_positions:
+  base: 0
+  start: deg(20)
+
+arm_2_joint_3_positions:
+  base: 0
+  start: deg(120)
+
+arm_2_joint_4_positions:
+  base: 0
+  start: 0
+
+arm_2_joint_5_positions:
+  base: 0
+  start: 0
+
+arm_2_gripper_joint_positions:
+  base: 0
+  start: 0
+
+head_pan_joint_positions:
+  base: 0
+  start: 0
+
+head_tilt_joint_positions:
+  base: 0
+  start: 0
