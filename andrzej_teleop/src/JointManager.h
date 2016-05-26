@@ -49,10 +49,12 @@ private:
             {'d', JointSet::ARM1}, {'f', JointSet::HEAD}, {'g', JointSet::ARM2}
     };
     const char keySwitchController = '`';
+    const char keyToggleArms = '0';
     ros::ServiceClient serviceSwitchCtrl;
 
     Joints arm1, arm2, head;
-
+    bool armsEnabled = false;
+    void toggleArms();
     Joints& getActiveJointSet();
     Joint& getActiveJoint();
 };

@@ -1,5 +1,6 @@
 #include "JointManager.h"
 #include <controller_manager_msgs/SwitchController.h>
+#include <std_srvs/Empty.h>
 
 JointManager::JointManager(ros::NodeHandle& ph)
 {
@@ -37,6 +38,16 @@ void JointManager::publish()
     getActiveJoint().publish();
 }
 
+void JointManager::toggleArms()
+{
+    static auto srv = std_srvs::Empty();
+    if(armsEnabled)
+        ros::service::call("andrzej_hw/disableArms", srv);
+    else
+        ros::service::call("andrzej_hw/enableArms", srv);
+    armsEnabled = !armsEnabled;
+}
+
 void JointManager::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 {
     if(joy->axes[4] != 0)
@@ -50,13 +61,18 @@ void JointManager::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
                 activeJoint = it->second;
                 (joy->axes[5] > 0) ? increment() : decrement();
             }
+
+    if(joy->buttons[9])
+        toggleArms();
 }
 
 bool JointManager::handleKey(char key) {
     if (keyBindingsActiveJointSet.count(key))
         activeJointSet = keyBindingsActiveJointSet.at(key);
-    else if (key == keySwitchController)
+    else if(key == keySwitchController)
         switchController();
+    else if(key == keyToggleArms)
+        toggleArms();
     else if (keyBindingsJointSelect.count(key) > 0)
         activeJoint = keyBindingsJointSelect.at(key);
     else if (keyBindingsJointMove.count(key) > 0) {
