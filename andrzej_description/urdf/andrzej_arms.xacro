@@ -40,10 +40,10 @@
     <transmission name="arm_${arm}_tran_${link_name}">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="arm_${arm}_joint_${link_name}">
-        <hardwareInterface>PositionJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="arm_${arm}_servo_${link_name}">
-        <hardwareInterface>PositionJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>

@@ -35,10 +35,10 @@
   <transmission name="arm_${arm}_finger_left_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="arm_${arm}_gripper_joint">
-      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="arm_${arm}_gripper_servo">
-      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
